@@ -11,14 +11,25 @@ void stack_reorder(std::stack<int>& s) {
     cur = s.top();
 
   while(!s.empty()) {
-    //if
     cur = s.top();
-    std::cout<<cur<<std::endl;
     while(cur < stack_tmp.top()) {
       stack_tmp.push(cur);
       s.pop();
       cur = s.top();
     }
+    //s: 100 2 1
+    //stack_tmp: 4 5 
+    while(!stack_tmp.empty()) {
+      int i = stack_tmp.top();
+      std::cout<<"i = " <<i<<std::endl;
+      stack_tmp.pop();
+    }
+    
+    /*
+
+    s.pop(); //弹出最大值 
+    //s: 2 1
+    //stack_tmp: 4 5 
 
     while(!stack_tmp.empty()) {
       int tmp = stack_tmp.top();
@@ -31,6 +42,7 @@ void stack_reorder(std::stack<int>& s) {
     } 
 
     stack_tmp.push(cur);
+    */
   }
 
   while(!stack_tmp.empty()) {
@@ -38,6 +50,31 @@ void stack_reorder(std::stack<int>& s) {
     stack_tmp.pop();
   }
   
+  return;
+}
+
+void stack_reorder1(std::stack<int>& s) {
+  std::stack<int> s1;
+  
+  while(!s.empty()) {
+    int cur = s.top();
+    s.pop();
+
+    while(!s1.empty() && cur > s1.top()) {
+      int tmp = s1.top();
+      s1.pop();
+      s.push(tmp);
+    }
+        
+    s1.push(cur);
+
+  }
+
+  while(!s1.empty()) {
+    int tmp = s1.top();
+    s1.pop();
+    s.push(tmp);
+  }
   return;
 }
 
@@ -50,7 +87,13 @@ int main()
   s.push(4);
   s.push(5);
 
-  stack_reorder(s);
+  stack_reorder1(s);
+
+  while(!s.empty()) {
+    int t = s.top();
+    s.pop();
+    std::cout<<t<<std::endl;
+  }
 
   return 0;
 }
