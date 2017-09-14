@@ -35,3 +35,4 @@ int main()
 
 //汉诺塔的 数列推到问题很有意思 
 //应该是高中知识 忘了 没写出来 没思路
+http://www.cnblogs.com/xxNote/articles/3965739.html
