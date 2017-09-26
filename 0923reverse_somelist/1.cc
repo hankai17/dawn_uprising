@@ -20,26 +20,7 @@ void ShowListNode(ListNode* head) {
     pCurrent = pCurrent->next;
   }
 }
-
-//比我写的简练
-ListNode* rever(ListNode* h)
-{
-  if (h == NULL) {
-    return NULL;
-  }
-  ListNode* pre = NULL;
-  ListNode* head = h;
-  ListNode* next;
-  while (head!= NULL) {
-    next = head->next;
-    head->next = pre;
-    pre = head;
-    head = next;
-  }
-  return pre;
-}
-
-/*从1开始*/
+//from to 是从1开始的
 ListNode* rever_partion(ListNode* h, int from, int to) {
   int len = 0;
   ListNode* node1 = h;
@@ -51,6 +32,9 @@ ListNode* rever_partion(ListNode* h, int from, int to) {
       tpos = (len == to + 1) ? node1 : tpos;
       node1 = node1->next;
   }
+  //cout<<"fpre->data = "<<fpre->data<<endl;
+  //cout<<"tpos->data = "<<tpos->data<<endl;
+
   if (h == NULL || from < 1 || to > len || from > to) {
     return NULL;
   }
@@ -59,7 +43,8 @@ ListNode* rever_partion(ListNode* h, int from, int to) {
   node1->next = tpos;
   ListNode* next = NULL;
 
-  while(node2 != NULL) {
+  //while(node2 != NULL) {
+  while(node2 != tpos) {
     next = node2->next;
     node2->next = node1;
     node1 = node2;
@@ -96,7 +81,7 @@ int main()
 
   ShowListNode(&head);
   std::cout<<"-----------"<<std::endl;
-  ListNode* tmp = rever_partion(&head, 2, 4);
+  ListNode* tmp = rever_partion(&head, 1, 4);
   ShowListNode(tmp);
   return 0;
 }
