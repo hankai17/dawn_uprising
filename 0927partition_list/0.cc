@@ -9,7 +9,7 @@ void partition(std::vector<int>& v) {
   int u = 0;
   while(i < (int)v.size()) {
     //if(v[u] != v[i]) 
-    if(v[u] != v[i++]) { 
+    if(v[u] != v[i++]) { //理解的核心： u只有在两个值不等的时候才++ 而i是每次都要++的
       v[++u] = v[i-1];
     }
   }
