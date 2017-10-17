@@ -39,6 +39,13 @@ void recursor_print(tree_node* root) {
   recursor_print(root->rdata);
 }
 
+int get_height(tree_node* head, int l) {
+  if (head == NULL) {
+    return l;
+  }
+  return std::max(get_height(head->ldata,l + 1),get_height(head->rdata, l + 1));
+}
+
 int main() {
   //创建结点
   tree_node  node1, node2, node3, node4, node5, node6, node7, node8;
