@@ -45,7 +45,6 @@ int get_height(tree_node* head, int l) {
   return std::max(get_height(head->ldata,l + 1),get_height(head->rdata, l + 1));
 }
 
-//void set_edge_map(tree_node* head, int l, tree_node* (*map)[2], int map_size) {
 void set_edge_map(tree_node* head, int l, tree_node* (*map)[2] ) {
   if (head == NULL) {
     return;
@@ -55,6 +54,17 @@ void set_edge_map(tree_node* head, int l, tree_node* (*map)[2] ) {
 
   set_edge_map(head->ldata, l + 1, map);
   set_edge_map(head->rdata, l + 1, map);
+}
+
+void print_leaf(tree_node* head, int l) {
+  if (head == NULL) {
+   return; 
+  }
+  if (head->ldata == NULL && head->rdata == NULL) {
+    std::cout<<head->data<<" "<<std::endl;
+  }
+  print_leaf(head->ldata, l + 1);
+  print_leaf(head->rdata, l + 1);
 }
 
 int main() {
@@ -91,6 +101,8 @@ int main() {
 
   int height = get_height(&node1, 0);
   std::cout<<"height = "<<height<<std::endl;
+  print_leaf(&node1, 0);
+
   tree_node* node_map[height][2];
   for (int i = 0; i < height; i++) {
     for (int j = 0; j < 2; j++) {
