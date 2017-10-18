@@ -46,6 +46,28 @@ int get_height(tree_node* head, int l) {
   return std::max(get_height(head->ldata,l + 1),get_height(head->rdata, l + 1));
 }
 
+void set_edge_map(tree_node* head, int l, tree_node* (*map)[2] ) {
+  if (head == NULL) {
+    return;
+  }
+  map[l][0] = map[l][0] == NULL ? head : map[l][0];
+  map[l][1] = head;
+
+  set_edge_map(head->ldata, l + 1, map);
+  set_edge_map(head->rdata, l + 1, map);
+}
+
+void print_leaf(tree_node* head, int l) {
+  if (head == NULL) {
+    return;
+  }
+  if (head->ldata == NULL && head->rdata == NULL) {
+    std::cout<<head->data<<" "<<std::endl;
+  }
+  print_leaf(head->ldata, l + 1);
+  print_leaf(head->rdata, l + 1);
+}
+
 int main() {
   //创建结点
   tree_node  node1, node2, node3, node4, node5, node6, node7, node8;
