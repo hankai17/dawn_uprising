@@ -7,6 +7,10 @@ struct list_node {
   struct list_node* next;
 };
 
+/*
+ * head只记录小头 
+ * head->next 记录比较后的结果
+ * */
 list_node* merge_recursive(list_node* head1, list_node* head2) {
   if (NULL == head1) {
     return head2;
@@ -115,7 +119,8 @@ void print_listnode(list_node*p) {
   if (p == NULL) {
     return;
   }
-  list_node*pCurrent = p->next;
+  //list_node*pCurrent = p->next;
+  list_node*pCurrent = p;
   while (pCurrent != NULL) {
     cout << pCurrent->data << " ";
     pCurrent = pCurrent->next;
