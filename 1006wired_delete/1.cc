@@ -44,6 +44,7 @@ void* middle(list_node* head) {
   list_node* mid = head;
   list_node* cur = head;
   while(cur->next != NULL && cur->next->next != NULL) {
+  //while(cur->next != NULL ) {
     mid = mid->next;
     cur = cur->next->next;
   }
