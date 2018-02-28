@@ -111,23 +111,29 @@ void* insert_clist(list_node* head, list_node* node) {
   }
   while(cur != head) {
     if(pre->data < node->data && cur->data >= node->data) {
-      //pre->next = node;
-      //node->next = cur;
-      //return head;
-      break;
+      pre->next = node;
+      node->next = cur;
+      return head;
+      //break;
     }
     pre = cur;
     cur = cur->next;
   }
-  //if(node->data > cur->data) {
-    //pre->next = node;
-    //node->next = head;
-    //return head;
-  //} else {
+/*
+  if(node->data > cur->data) {
+    pre->next = node;
+    node->next = head;
+    return head;
+  } else {
+    pre->next = node;
+    node->next = cur;
+    return node;
+    //return head->data > node->data ? node : head;
+  }
+  */
     pre->next = node;
     node->next = head;
     return head->data > node->data ? node : head;
-  //}
 }
 
 int main()
@@ -147,7 +153,9 @@ int main()
 
   showlist_node(&head);
   list_node num;
-  num.data = -40;
+  //num.data = -40;
+  num.data = 8;
+  //num.data = 12;
   list_node* tmp = (list_node*)insert_clist(&head, &num);
   showlist_node(tmp);
 
