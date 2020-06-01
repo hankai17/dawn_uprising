@@ -32,6 +32,16 @@ void select_sort(int arr[],int len) {
   }
 }
 
+void select_sort1(int arr[], int len) {
+    for (int i = 0; i < len; i++) {
+        for (int j = i; j < len; j++) {
+            if (arr[i] > arr[j]) {
+                myswap(arr, i, j); 
+            }
+        }
+    }
+}
+
 int main()
 {
   int arr[MAX];
@@ -40,7 +50,8 @@ int main()
     arr[i] = rand() % MAX;
   }
   printArray(arr, MAX);
-  select_sort(arr, MAX);
+  //select_sort(arr, MAX);
+  select_sort1(arr, MAX);
   printArray(arr, MAX);
   return EXIT_SUCCESS;
 }
