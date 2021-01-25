@@ -15,6 +15,11 @@ struct dlist_node {
     struct dlist_node *next;
 };
 
+struct clist_node {
+    int               data;
+    struct clist_node *next;
+};
+
 void show_list_node(list_node *l)
 {
     if (l == NULL) return;
@@ -225,13 +230,13 @@ list_node *reverse_every_partion_list(list_node *head, int len)
     list_node *n_end = NULL;
     while (cur != NULL) {
         if (i == len - 1) {
-            o_start = pre; 
+            n_start = pre; 
             pre_end->next = pre;
             i = 0;
         }
 
         if (i == 0) {
-            pre_end = cur;
+            n_end = cur;
         }
         next = cur->next;
         cur->next = pre;
@@ -586,11 +591,8 @@ list_node *list_select_order(list_node *head)
             pre_select = select;
             select = select->next;
         }
-
-        show_list_node(n_node);
         if (min == head) {
             head = head->next;
-            std::cout << "min==head: " << min->data << std::endl;
         } else {
             pre_min->next = pre_min->next->next;
         }
@@ -602,17 +604,120 @@ list_node *list_select_order(list_node *head)
 #endif
 }
 
+void insert_ordered_clist(clist_node *head, int num)
+{
+    if (head == NULL) return;
+    clist_node *pre = head;
+    clist_node *cur = pre->next;;
+    clist_node n_node;
+    n_node.data = num;
+    while (cur != head) {
+        if (pre->data <= num && cur->data > num) {
+            break;
+        }
+        pre = cur;
+        cur = cur->next;
+    }
+    pre->next = &n_node; 
+    n_node.next = cur;
+}
+
+list_node *merge_ordered_list(list_node *l1, list_node *l2)
+{
+    if (l1 == NULL) return l2;
+    if (l2 == NULL) return l1;
+
+    list_node *cur1 = l1;
+    list_node *cur2 = l2;
+    list_node *n_tmp;
+    list_node *new_head;
+    if (cur1->data <= cur2->data) {
+        n_tmp = cur1; 
+        cur1 = cur1->next;
+    } else {
+        n_tmp = cur2; 
+        cur2 = cur2->next;
+    }
+    new_head = n_tmp;
+
+    while (cur1 != NULL && cur2 != NULL) {
+        if (cur1->data <= cur2->data) {
+            n_tmp->next = cur1; 
+            cur1 = cur1->next;
+        } else {
+            n_tmp->next = cur2; 
+            cur2 = cur2->next;
+        }
+        n_tmp = n_tmp->next;
+    }
+
+    if (cur1) {
+        n_tmp->next = cur1;
+    }
+    if (cur2) {
+        n_tmp->next = cur2;
+    }
+    return new_head;
+}
+
+list_node *merge_lr_list(list_node* head)
+{
+    if (head == NULL) return NULL;
+    list_node *mid = head;
+    list_node *cur = head->next;
+    while (cur->next != NULL && 
+          cur->next->next != NULL) {
+        mid = mid->next;
+        cur = cur->next->next;
+    }
+    list_node *right = mid->next;
+    mid->next = NULL;
+
+    list_node *new_head = head; // head: 1 3
+    list_node *tmp = head;      // right: 5 7 9
+    head = head->next;
+
+    while (head != NULL && right != NULL) {
+        tmp->next = right; 
+        right = right->next;
+
+        tmp = tmp->next;
+
+        tmp->next = head;
+        head = head->next;
+        tmp = tmp->next;
+    }
+
+    if (head) {
+        tmp->next = head;
+    }
+    if (right) {
+        tmp->next = right;
+    }
+    return new_head;
+}
+
 void list_node_test()
 {
-    list_node l1; l1.data = 9;
-    list_node l2; l2.data = 1;
-    list_node l3; l3.data = 8;
-    list_node l4; l4.data = 2;
-    list_node l5; l5.data = 7;
+    list_node l1; l1.data = 1;
+    list_node l2; l2.data = 3;
+    list_node l3; l3.data = 5;
+    list_node l4; l4.data = 7;
+    list_node l5; l5.data = 9;
 
     l1.next = &l2; l2.next = &l3;
     l3.next = &l4; l4.next = &l5;
     l5.next = NULL;
+
+    list_node ll1; ll1.data = 2;
+    list_node ll2; ll2.data = 4;
+    list_node ll3; ll3.data = 6;
+    list_node ll4; ll4.data = 8;
+    list_node ll5; ll5.data = 10;
+
+    ll1.next = &ll2; ll2.next = &ll3;
+    ll3.next = &ll4; ll4.next = &ll5;
+    ll5.next = NULL;
 
     //del_back(&l1);
     //del_mid(&l1);
@@ -635,7 +740,9 @@ void list_node_test()
     //list_add(&l1, &l1);
     //list_del_dup(&l1);
     //list_node *tmp = list_del_val(&l1, 4);
-    list_node *tmp = list_select_order(&l1);
+    //list_node *tmp = list_select_order(&l1);
+    //list_node *tmp = merge_ordered_list(&l1, &ll1);
+    list_node *tmp = merge_lr_list(&l1);
     show_list_node(tmp);
 }
 
