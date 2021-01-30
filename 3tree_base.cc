@@ -1,139 +1,331 @@
-#include<iostream>
-#include<stack>
-
-#define FLAG_TRUE 1
-#define FLAG_FALSE 0
+#include <iostream>
+#include <stack>
+#include <string>
+#include <list>
+#include <map>
 
 struct tree_node {
-  int               data;
-  struct tree_node *ldata;
-  struct tree_node *rdata;
+    int                 data;
+    struct tree_node   *left;
+    struct tree_node   *right;
 };
 
-void print(tree_node *root)
+std::string compose_blank(int num)
+{
+    std::string str;
+    for (int i = 0; i < num; i++) {
+        str += " ";
+    }
+    return str;
+}
+
+void pre_order_recur(tree_node *root)
+{
+    if (root == NULL) return;
+    std::cout << root->data << " ";
+    pre_order_recur(root->left);
+    pre_order_recur(root->right);
+}
+
+void in_order_recur(tree_node *root)
+{
+    if (root == NULL) return;
+    in_order_recur(root->left);
+    std::cout << root->data << " ";
+    in_order_recur(root->right);
+}
+
+void pos_order_recur(tree_node *root)
+{
+    if (root == NULL) return;
+    pos_order_recur(root->left);
+    pos_order_recur(root->right);
+    std::cout << root->data << " ";
+}
+
+void pre_order(tree_node *root)
 {
     if (root == NULL) return;
     std::stack<tree_node*> s;
     s.push(root);
 
     while (!s.empty()) {
-      root = s.top();
-      s.pop();
-      std::cout << root->data << " ";
-      if (root->rdata != NULL) {
-        s.push(root->rdata);
-      }
-      if (root->ldata != NULL) {
-        s.push(root->ldata);
-      }
-    }
-}
-
-void print1(tree_node *root)
-{
-    if (root == NULL) return;
-    std::stack<tree_node*> s;
-    while (!s.empty() || root != NULL) {
-        if (root != NULL) {
-            s.push(root);
-            root = root->ldata;
-        } else {
-            root = s.top();
-            s.pop();
-            std::cout << root->data  << " ";
-            root = root->rdata;
+        tree_node* tmp = s.top();
+        s.pop();
+        std::cout << tmp->data << " ";
+        
+        if (tmp->right) {
+            s.push(tmp->right);
+        }
+        if (tmp->left) {
+            s.push(tmp->left);
         }
     }
 }
 
-//打印二叉树 先序遍历 先打印根
-void recursor_print(tree_node *root)
+void in_order(tree_node *root)
 {
     if (root == NULL) return;
-    std::cout<< root->data << " ";
-    recursor_print(root->ldata);
-    recursor_print(root->rdata);
+    std::stack<tree_node*> s;
+    tree_node *tmp = root;
+
+    while (!s.empty() || tmp) {
+        if (tmp) {
+            s.push(tmp);
+            tmp = tmp->left;
+        } else {
+            tmp = s.top();
+            s.pop();
+            std::cout << tmp->data << " ";
+            tmp = tmp->right;
+        }
+    }
 }
 
-void recursor_print1(tree_node *root)
+void pos_order(tree_node *root)
 {
     if (root == NULL) return;
-    recursor_print1(root->ldata);
-    std::cout << root->data << " ";
-    recursor_print1(root->rdata);
+    std::stack<tree_node*> s1;
+    std::stack<tree_node*> s2;
+    tree_node *tmp = root;
+    s1.push(root);
+
+    while (!s1.empty()) {
+        tmp = s1.top();
+        s1.pop();
+
+        s2.push(tmp);
+        if (tmp->left) {
+            s1.push(tmp->left);
+        }
+        if (tmp->right) {
+            s1.push(tmp->right);
+        }
+    }
+    while (!s2.empty()) {
+        tmp = s2.top();
+        s2.pop();
+        std::cout << tmp->data << " ";
+    }
 }
 
-int get_height(tree_node *head, int l) 
+#define VAL_MAX_LEN 17
+void print_struct(tree_node *root, int h, std::string str)
 {
-    if (head == NULL) {
-      return l;
-    }
-    return std::max(get_height(head->ldata,l + 1),
-            get_height(head->rdata, l + 1));
+    if (root == NULL) return;
+    print_struct(root->right, h + 1, "v");
+
+    std::string val = str + std::to_string(root->data) + str;
+    int left_space = (VAL_MAX_LEN - val.length()) / 2;
+    int right_space = VAL_MAX_LEN - left_space - val.length();
+    val = compose_blank(h * VAL_MAX_LEN) + compose_blank(left_space) + val + compose_blank(right_space);
+    std::cout << val << std::endl;
+    print_struct(root->left, h + 1, "^");
 }
 
-void set_edge_map(tree_node* head, int l, tree_node* (*map)[2])
+void print_leaf(tree_node *root)
 {
-    if (head == NULL) {
-      return;
+    if (root == NULL) return;
+    if (root->left == NULL && 
+            root->right == NULL) {
+        std::cout << root->data << " ";
     }
-    map[l][0] = map[l][0] == NULL ? head : map[l][0];
-    map[l][1] = head;
-
-    set_edge_map(head->ldata, l + 1, map);
-    set_edge_map(head->rdata, l + 1, map);
+    print_leaf(root->left);
+    print_leaf(root->right);
 }
 
-void print_leaf(tree_node *head, int l)
+/* just like strlen */
+int get_heigh(tree_node *root, int h)
 {
-    if (head == NULL) {
-      return;
-    }
-    if (head->ldata == NULL && head->rdata == NULL) {
-      std::cout << head->data << " " << std::endl;
-    }
-    print_leaf(head->ldata, l + 1);
-    print_leaf(head->rdata, l + 1);
+    if (root == NULL) return h;
+    return std::max(get_heigh(root->left, h + 1), 
+          get_heigh(root->right, h + 1));
 }
 
-int main() {
-  //创建结点
-  tree_node  node1, node2, node3, node4, node5, node6, node7, node8;
-  node1.data = 1; node1.ldata = NULL; node1.rdata = NULL;
-  node2.data = 2; node2.ldata = NULL; node2.rdata = NULL;
-  node3.data = 3; node3.ldata = NULL; node3.rdata = NULL;
-  node4.data = 4; node4.ldata = NULL; node4.rdata = NULL;
-  node5.data = 5; node5.ldata = NULL; node5.rdata = NULL;
-  node6.data = 6; node6.ldata = NULL; node6.rdata = NULL;
-  node7.data = 7; node7.ldata = NULL; node7.rdata = NULL;
-  node8.data = 8; node8.ldata = NULL; node8.rdata = NULL;
+/*-------------------------------------------------------------------------PRINT EDGE*/
 
-  //建立结点关系
-  node1.ldata = &node2;
-  node1.rdata = &node6;
+void edge_set_map(tree_node *root, int h, tree_node* arr[][2])
+{
+    if (root == NULL) return;
+    if (!arr[h][0]) {
+        arr[h][0] = root;
+    }
+    arr[h][1] = root;
+    edge_set_map(root->left, h + 1, arr);
+    edge_set_map(root->right, h + 1, arr);
+}
 
-  node2.ldata = NULL;
-  node2.rdata = &node3;
+void edge_print_ideal_leaf(tree_node *root, int h, tree_node* arr[][2])
+{
+    if (root == NULL) return;
+    if (root->left == NULL && root->right == NULL) {
+        if (root != arr[h][0] && root != arr[h][1]) {
+            std::cout << root->data << " ";
+        }
+    }
+    edge_print_ideal_leaf(root->left, h + 1, arr);
+    edge_print_ideal_leaf(root->right, h + 1, arr);
+}
 
-  node3.ldata = &node4;
-  node3.rdata = &node5;
+void print_edge(tree_node *root)
+{
+    if (root == NULL) return;
+    int heigh = get_heigh(root, 0);
+    tree_node* arr[heigh][2] = {{0}};
 
-  node6.ldata = NULL;
-  node6.rdata = &node7;
+    // print left edge
+    edge_set_map(root, 0, arr);
+    for (int i = 0; i < heigh; i++) {
+        std::cout << (arr[i][0])->data << " ";
+    }
 
-  node7.ldata = &node8;
-  node7.rdata = NULL;
+    // print ideal leaf
+    edge_print_ideal_leaf(root, 0, arr);
 
-  recursor_print(&node1);
-  std::cout<< "\n";
-  recursor_print1(&node1);
-  std::cout<< "\n";
-  print(&node1);
-  std::cout<< "\n";
-  print1(&node1);
-  std::cout<< "\n";
+    // print right edge
+    for (int i = heigh - 1; i > 0; i--) {
+        std::cout << (arr[i][1])->data << " ";
+    }
+}
 
-  std::cout<< "get_height: " << get_height(&node1, 0) << std::endl; // hheight
+/*-------------------------------------------------------------------------PRINT EDGE*/
 
-  return 0;
+/*-------------------------------------------------------------------------SERIAL TREE*/
+
+std::string serial_tree(tree_node *root)
+{
+    if (root == NULL) return "#!";
+    std::string val = std::to_string(root->data) + "!";
+    val += serial_tree(root->left);
+    val += serial_tree(root->right);
+    return val;
+}
+
+void re_serial_tree() {} // TODO
+
+void level_print(tree_node *root)
+{
+    if (root == NULL) return;
+    std::list<tree_node*> l;
+    tree_node *tmp;
+    l.push_back(root);
+
+    while (!l.empty()) {
+        tmp = l.front(); 
+        l.pop_front();
+        std::cout << tmp->data << " ";
+        if (tmp->left) {
+            l.push_back(tmp->left);
+        }
+        if (tmp->right) {
+            l.push_back(tmp->right);
+        }
+    }
+}
+
+/*-------------------------------------------------------------------------SERIAL TREE*/
+
+
+/*-------------------------------------------------------------------------MAX LEN TREE*/
+
+#define K 7
+int get_max_len(tree_node *root, int pre_sum, int l, int max_len, std::map<int, int> &m)
+{
+    if (root == NULL) return max_len;
+    int cur_sum = pre_sum + root->data;
+
+    auto it = m.find(cur_sum);
+    if (it == m.end()) {
+        m.insert(std::make_pair(cur_sum, l));
+    }
+    
+    if (cur_sum == K) {
+        max_len = l + 1;
+    } else if (cur_sum > K) {
+        it = m.find(cur_sum - K);
+        if (it != m.end()) {
+            max_len = max_len > l - it->second ? max_len :
+                l - it->second;
+        }
+    }
+
+    max_len = get_max_len(root->left, cur_sum, l + 1, max_len, m);
+    max_len = get_max_len(root->right, cur_sum, l + 1, max_len, m);
+    /*
+    it = m.find(cur_sum);
+    if (it != m.end()) {
+        m.erase(cur_sum);
+    }
+    */
+}
+
+/*-------------------------------------------------------------------------MAX LEN TREE*/
+
+/*-------------------------------------------------------------------------MAX BSTE*/
+/*-------------------------------------------------------------------------MAX BSTE*/
+
+
+
+void test(tree_node *root)
+{
+    pre_order_recur(root);
+    std::cout << std::endl;
+    in_order_recur(root);
+    std::cout << std::endl;
+    pos_order_recur(root);
+    std::cout << std::endl;
+
+    pre_order(root);
+    std::cout << std::endl;
+    in_order(root);
+    std::cout << std::endl;
+    pos_order(root);
+    std::cout << std::endl;
+
+    std::cout << "get_heigh: " << get_heigh(root, 0) << std::endl;
+    print_leaf(root);
+    std::cout << std::endl;
+
+    print_struct(root, 0, "");
+
+    print_edge(root);
+    std::cout << std::endl;
+
+    std::cout << serial_tree(root) << std::endl;
+    level_print(root);
+    std::cout << std::endl;
+    std::map<int, int> m;
+    std::cout << get_max_len(root, 0, 0, 0, m) << std::endl;
+}
+
+int main()
+{
+    tree_node  node1, node2, node3, node4, node5, node6, node7, node8;
+    node1.data = 1; node1.left = NULL; node1.right = NULL;
+    node2.data = 2; node2.left = NULL; node2.right = NULL;
+    node3.data = 3; node3.left = NULL; node3.right = NULL;
+    node4.data = 4; node4.left = NULL; node4.right = NULL;
+    node5.data = 5; node5.left = NULL; node5.right = NULL;
+    node6.data = 6; node6.left = NULL; node6.right = NULL;
+    node7.data = 7; node7.left = NULL; node7.right = NULL;
+    node8.data = 8; node8.left = NULL; node8.right = NULL;
+
+    node1.left = &node2;
+    node1.right = &node6;
+
+    node2.left = NULL;
+    node2.right = &node3;
+
+    node3.left = &node4;
+    node3.right = &node5;
+
+    node6.left = NULL;
+    node6.right = &node7;
+
+    node7.left = &node8;
+    node7.right = NULL;
+
+    test(&node1);
+
+    return 0;
 }
