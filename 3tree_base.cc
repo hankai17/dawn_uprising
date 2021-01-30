@@ -265,6 +265,146 @@ int get_max_len(tree_node *root, int pre_sum, int l, int max_len, std::map<int, 
 /*-------------------------------------------------------------------------MAX BSTE*/
 
 
+/*-------------------------------------------------------------------------CONTAINS */
+
+int check(tree_node *root1, tree_node *root2)
+{
+    if (root2 == NULL) return 1;
+    if (root1 == NULL || 
+            root1->data != root2->data) {
+        return 0;
+    }
+    return check(root1->left, root2->left) &&
+        check(root1->right, root2->right);
+}
+
+int contains_tree(tree_node *root, tree_node *child)
+{
+    return check(root, child) || 
+        contains_tree(root->left, child) ||
+        contains_tree(root->right, child);
+}
+
+/*-------------------------------------------------------------------------CONTAINS */
+
+
+/*-------------------------------------------------------------------------IS BT */
+
+int get_heigh(tree_node* root, int l, int &result)
+{
+    if (root == NULL) return l;
+    int lH = get_heigh(root->left, l + 1, result);
+    if (result == 0) {
+        return l;
+    }
+    int rH = get_heigh(root->right, l + 1, result);
+    if (result == 0) {
+        return l;
+    }
+    if (abs(lH - rH) > 1) {
+        result = 0;
+    }
+    return lH > rH ? lH : rH;
+}
+
+void is_balance(tree_node *root)
+{
+    if (root == NULL) return;
+    int result;
+    get_heigh(root, 1, result);
+    std::cout << "result: " << result << std::endl;
+}
+
+/*-------------------------------------------------------------------------IS BT */
+
+/*-------------------------------------------------------------------------IS BST POS */
+
+int is_pos(int arr[], int start, int end)
+{
+    if (start == end) return 1;
+    int less = -1;
+    int more = end;
+    for (int i = 0; i < end; i++) {
+        if (arr[i] < arr[end]) {
+            less = i;
+        } else {
+            more = more == end ? i : more;
+        }
+    }
+    if (less == -1 || more == end) {
+        return is_pos(arr, start, end - 1);
+    }
+    if (less != more - 1) {
+        return 0;
+    }
+    return is_pos(arr, start, less) && is_pos(arr, more, end - 1);
+}
+
+int is_search_tree_pos(int arr[], int len)
+{
+    if (arr == NULL || len == 0) return 0;
+    return is_pos(arr, 0, len - 1);
+}
+
+/*-------------------------------------------------------------------------IS BST POS */
+
+/*-------------------------------------------------------------------------IS CBT */
+
+int is_complete_tree(tree_node *root)
+{
+    if (root == NULL) return 1;
+    std::list<tree_node*> l;
+    tree_node *tmp;
+    l.push_back(root);
+    int leaf = 0;
+
+    while (!l.empty()) {
+        tmp = l.front(); 
+        l.pop_front();
+
+        tree_node *left = tmp->left;
+        tree_node *right = tmp->right;
+        if (left == NULL && right != NULL) return 0;
+        if (leaf && (left != NULL || right != NULL)) {
+            return 0;
+        }
+
+        if (left) {
+            l.push_back(left);
+        }
+        if (right) {
+            l.push_back(right);
+        } else {
+            leaf = 1;
+        }
+    }
+    return 1;
+}
+
+/*-------------------------------------------------------------------------IS CBT */
+
+/*-------------------------------------------------------------------------GEN BBST */
+
+tree_node *generate(int arr[], int start, int end)
+{
+    if (start > end) return NULL;
+    int mid = (start + end) / 2;
+
+    tree_node *head = new tree_node;
+    head->data = arr[mid];
+
+    head->left = generate(arr, start, mid - 1);
+    head->right = generate(arr, mid + 1, end);
+    return head;
+}
+
+tree_node *generate_balance_BST(int arr[], int len)
+{
+    if (arr == NULL || len == 0) return NULL;
+    return generate(arr, 0, len - 1);
+}
+
+/*-------------------------------------------------------------------------GEN BBST */
 
 void test(tree_node *root)
 {
