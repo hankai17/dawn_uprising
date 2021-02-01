@@ -8,6 +8,7 @@ struct tree_node {
     int                 data;
     struct tree_node   *left;
     struct tree_node   *right;
+    struct tree_node   *parent;
 };
 
 std::string compose_blank(int num)
@@ -405,6 +406,109 @@ tree_node *generate_balance_BST(int arr[], int len)
 }
 
 /*-------------------------------------------------------------------------GEN BBST */
+
+/*-------------------------------------------------------------------------NEXT NODE */
+
+tree_node *get_left_most(tree_node *root)
+{
+    if (root == NULL) return NULL;
+    while (root->left) {
+        root = root->left;
+    }
+    return root;
+}
+
+tree_node *get_next(tree_node *root)
+{
+    if (root == NULL) return NULL;
+    if (root->right != NULL) {
+        return get_left_most(root->right);
+    } else {
+        tree_node *parent = root->parent;
+        while (parent != NULL && parent->left != NULL) {
+            root = parent;
+            parent = root->parent;
+        }
+        return parent;
+    }
+}
+
+/*-------------------------------------------------------------------------NEXT NODE */
+
+/*-------------------------------------------------------------------------LOWEST ANCESTOR */
+
+tree_node *lowest_ancestor(tree_node *root, int val1, int val2)
+{
+    if (root == NULL) return NULL;
+    if (root->data == val1 || root->data == val2) return root;
+    tree_node * left = lowest_ancestor(root->left, val1, val2);
+    tree_node * right = lowest_ancestor(root->right, val1, val2);
+    if (left != NULL && right != NULL) {
+        return root;
+    }
+    return left != NULL ? left : right;
+}
+
+/*-------------------------------------------------------------------------LOWEST ANCESTOR */
+
+/*------------------------------------------------------------------------- PRE IN TO TREE*/
+
+tree_node *pre_in(int pre[], int pi, int pj, int in[], int ni, int nj, 
+      std::map<int, int> &in_map)
+{
+    if (pi > pj) return NULL;
+    tree_node *node = new tree_node;
+    node->data = pre[pi];
+
+    auto it = in_map.find(node->data);
+    int idx = it->second;
+
+    node->left = pre_in(pre, pi + 1, pi + idx - ni, in, ni, idx - 1, in_map);
+    node->right = pre_in(pre, pi + idx - ni + 1, pj, in, idx + 1, nj, in_map);
+    return node;
+}
+
+tree_node *pre_in_2_tree(int pre[], int in[], int len)
+{
+    if (pre == NULL || in == NULL || len == 0) return NULL;
+    std::map<int, int> in_map;
+    for (int i = 0; i < len; i++) {
+        in_map.insert(std::make_pair(in[i], i));
+    }
+    return pre_in(pre, 0, len - 1, in, 0, len - 1, in_map);
+}
+
+/*------------------------------------------------------------------------- PRE IN TO TREE*/
+
+/*------------------------------------------------------------------------- POST ARR*/
+
+int set_pos(int pre[], int pi, int pj, int in[], int ni, int nj,
+      int result[], int si, std::map<int, int> &in_map)
+{
+    if (pi > pj) return si;
+    result[si--] = pre[pi];
+
+    auto it = in_map.find(pre[pi]);
+    int idx = it->second;
+
+    si = set_pos(pre, pj - nj + idx + 1, pj, in, idx + 1, nj, result, si, in_map);
+    return set_pos(pre, pi + 1, pi + idx - ni, in, ni, idx - 1, result, si, in_map);
+}
+
+int *get_pos_arr(int pre[], int in[], int len)
+{
+    if (pre == NULL || in == NULL || len == 0) return NULL;
+    int* result = new int[len];
+    std::map<int, int> in_map;
+    for (int i = 0; i < len; i++) {
+        in_map.insert(std::make_pair(in[i], i));
+    }
+    set_pos(pre, 0, len - 1, in, 0, len - 1, result, len - 1, in_map);
+    return result;
+}
+
+/*------------------------------------------------------------------------- POST ARR*/
+
 
 void test(tree_node *root)
 {
