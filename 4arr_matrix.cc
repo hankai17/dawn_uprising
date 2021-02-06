@@ -42,6 +42,25 @@ void print_edge(int arr[][4], int lux, int luy, int rdx, int rdy)
     return;
 }
 
+/*------------------------------------------------------------spiril print*/
+
+/*------------------------------------------------------------clockwise print*/
+
+void process_edge(int arr[][4], int lux, int luy, int rdx, int rdy)
+{
+    int n = rdx - lux;
+    for (int i = 0; i < n; i++) {
+        int tmp = arr[lux][luy + i];
+        arr[lux][luy + i] = arr[rdx - i][luy];
+        arr[rdx - i][luy] = arr[rdx][rdy - i];
+        arr[rdx][rdy - i] = arr[lux + i][rdy];
+        arr[lux + i][rdy] = tmp;
+    }
+    return;
+}
+
+/*------------------------------------------------------------clockwise print*/
+
 // clockwise
 void spiril_print(int **arr1, int n, int m)
 {
@@ -56,18 +75,111 @@ void spiril_print(int **arr1, int n, int m)
     int rdy = n - 1;
 
     while (lux <= rdx && luy <= rdy) {
-        print_edge(arr, lux, luy, rdx, rdy);
+        //print_edge(arr, lux, luy, rdx, rdy);
+        process_edge(arr, lux, luy, rdx, rdy);
         lux++;
         luy++;
         rdx--;
         rdy--;
     }
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            std::cout << arr[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
     return;
 }
 
-/*------------------------------------------------------------spiril print*/
 
-/* disordered; gt 0; arr; get sum is K's max length */
+/*------------------------------------------------------------min K */
+// see heap.c
+/*------------------------------------------------------------min K*/
+
+/*--------------------------------------------disordered; get min reorder len*/
+
+void get_min_reorder_len(int arr[], int len)
+{
+    if (arr == NULL || len == 0 ) return; 
+
+    // <--- 
+    int min_target_idx = -1;
+    int min = arr[len - 1];
+    for (int i = len - 2; i >= 0; i--) {
+        if (arr[i] > min) {
+            min_target_idx = i; 
+        } else {
+            min = arr[i];
+        }
+    }
+    if (min_target_idx == -1) return;
+
+    int max = arr[0];
+    int max_target_idx = -1;
+    for (int i = 1; i < len - 1; i++) {
+        if (arr[i] < max) {
+            max_target_idx = i;
+        } else {
+            max = arr[i];
+        }
+    }
+    std::cout << max_target_idx - min_target_idx + 1 << std::endl;
+}
+
+/*--------------------------------------------disordered; get min reorder len*/
+
+/*--------------------------------------------ordered matrix; is value in it */
+
+bool is_vale_in_ordered_matrix(int arr[][4], int val)
+{
+    int row = 0;
+    int col = 3;
+    while (row < 4 && col >= 0) {
+        if (arr[row][col] > val) {
+            col--;
+        } else if (arr[row][col] < val) {
+            row++;
+        } else {
+            return true;
+        }
+    }
+    return false; 
+}
+
+/*--------------------------------------------ordered matrix; is value in it */
+
+/*--------------------------------------------ordered matrix; is value in it */
+
+int getLIL(int arr[], int len)
+{
+    if (arr == NULL || len == 0) return 0;
+    int rlen = 0;
+    std::map<int, int> m;
+
+    for (int i = 0; i < len; i++) {
+        int min = 0x7fffffff;
+        int max = 0x80000000;
+        for (int j = i; j < len; j++) {
+            if (m.find(arr[j]) != m.end()) {
+                break;
+            }
+            m.insert(std::make_pair(arr[j], 1));
+            max = std::max(max, arr[j]);
+            min = std::min(min, arr[j]);
+            if (max - min == j - i) {
+                rlen = std::max(rlen, j - i + 1);
+            }
+        }
+        m.clear();
+    }
+    return rlen;
+}
+
+/*--------------------------------------------ordered matrix; is value in it */
+
+/*--------------------------disordered; gt 0; arr; get sum is K's max length */
 int get_max_length(int arr[], int len)
 {
     if (arr == NULL || len == 0 || K <= 0) return 0; 
@@ -95,7 +207,6 @@ int get_max_length(int arr[], int len)
     return l; 
 }
 
-/* disordered; arr; get sum is K's max length */
 int get_max_length1(int arr[], int len)
 {
     if (arr == NULL || len == 0 || K <= 0) return 0; 
@@ -124,17 +235,19 @@ int get_max_length1(int arr[], int len)
     }
     return l;
 }
+/*--------------------------disordered; gt 0; arr; get sum is K's max length */
 
 void test(int arr[], int len)
 {
-    std::cout << get_max_length(arr, len) << std::endl;
-    std::cout << get_max_length1(arr, len) << std::endl;
-    spiril_print(NULL, 0, 0);
+    //std::cout << get_max_length(arr, len) << std::endl;
+    //std::cout << get_max_length1(arr, len) << std::endl;
+    //spiril_print(NULL, 0, 0);
+    std::cout << getLIL(arr, len) << std::endl;
 }
 
 int main()
 {
-    int arr[] = { 1, 2, 3, 3 };
+    int arr[] = { 1, 9, 3, 4 };
     test(arr, sizeof(arr)/sizeof(arr[0]));
     return 0;
 }
