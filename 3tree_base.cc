@@ -20,6 +20,7 @@ std::string compose_blank(int num)
     return str;
 }
 
+// TREE NUM1: recur print
 void pre_order_recur(tree_node *root)
 {
     if (root == NULL) return;
@@ -44,6 +45,7 @@ void pos_order_recur(tree_node *root)
     std::cout << root->data << " ";
 }
 
+// TREE NUM2: nono-recur print
 void pre_order(tree_node *root)
 {
     if (root == NULL) return;
@@ -110,6 +112,7 @@ void pos_order(tree_node *root)
     }
 }
 
+// TREE NUM3: print tree struct
 #define VAL_MAX_LEN 17
 void print_struct(tree_node *root, int h, std::string str)
 {
@@ -124,6 +127,7 @@ void print_struct(tree_node *root, int h, std::string str)
     print_struct(root->left, h + 1, "^");
 }
 
+// TREE NUM4: print tree leaf
 void print_leaf(tree_node *root)
 {
     if (root == NULL) return;
@@ -136,6 +140,7 @@ void print_leaf(tree_node *root)
 }
 
 /* just like strlen */
+// TREE NUM5: print tree heigh
 int get_heigh(tree_node *root, int h)
 {
     if (root == NULL) return h;
@@ -143,8 +148,7 @@ int get_heigh(tree_node *root, int h)
           get_heigh(root->right, h + 1));
 }
 
-/*-------------------------------------------------------------------------PRINT EDGE*/
-
+// TREE NUM6: print special edge
 void edge_set_map(tree_node *root, int h, tree_node* arr[][2])
 {
     if (root == NULL) return;
@@ -189,10 +193,7 @@ void print_edge(tree_node *root)
     }
 }
 
-/*-------------------------------------------------------------------------PRINT EDGE*/
-
-/*-------------------------------------------------------------------------SERIAL TREE*/
-
+// TREE NUM7: serial tree 
 std::string serial_tree(tree_node *root)
 {
     if (root == NULL) return "#!";
@@ -204,6 +205,7 @@ std::string serial_tree(tree_node *root)
 
 void re_serial_tree() {} // TODO
 
+// TREE NUM8: level print
 void level_print(tree_node *root)
 {
     if (root == NULL) return;
@@ -224,11 +226,8 @@ void level_print(tree_node *root)
     }
 }
 
-/*-------------------------------------------------------------------------SERIAL TREE*/
 
-
-/*-------------------------------------------------------------------------MAX LEN TREE*/
-
+// TREE NUM9: sum max len tree
 #define K 7
 int get_max_len(tree_node *root, int pre_sum, int l, int max_len, std::map<int, int> &m)
 {
@@ -260,14 +259,7 @@ int get_max_len(tree_node *root, int pre_sum, int l, int max_len, std::map<int, 
     */
 }
 
-/*-------------------------------------------------------------------------MAX LEN TREE*/
-
-/*-------------------------------------------------------------------------MAX BSTE*/
-/*-------------------------------------------------------------------------MAX BSTE*/
-
-
-/*-------------------------------------------------------------------------CONTAINS */
-
+// TREE NUM10: contains
 int check(tree_node *root1, tree_node *root2)
 {
     if (root2 == NULL) return 1;
@@ -286,11 +278,7 @@ int contains_tree(tree_node *root, tree_node *child)
         contains_tree(root->right, child);
 }
 
-/*-------------------------------------------------------------------------CONTAINS */
-
-
-/*-------------------------------------------------------------------------IS BT */
-
+// TREE NUM11: is balance
 int get_heigh(tree_node* root, int l, int &result)
 {
     if (root == NULL) return l;
@@ -316,10 +304,7 @@ void is_balance(tree_node *root)
     std::cout << "result: " << result << std::endl;
 }
 
-/*-------------------------------------------------------------------------IS BT */
-
-/*-------------------------------------------------------------------------IS BST POS */
-
+// TREE NUM12: is bst pos
 int is_pos(int arr[], int start, int end)
 {
     if (start == end) return 1;
@@ -347,10 +332,7 @@ int is_search_tree_pos(int arr[], int len)
     return is_pos(arr, 0, len - 1);
 }
 
-/*-------------------------------------------------------------------------IS BST POS */
-
-/*-------------------------------------------------------------------------IS CBT */
-
+// TREE NUM13: is complete bt
 int is_complete_tree(tree_node *root)
 {
     if (root == NULL) return 1;
@@ -382,10 +364,7 @@ int is_complete_tree(tree_node *root)
     return 1;
 }
 
-/*-------------------------------------------------------------------------IS CBT */
-
-/*-------------------------------------------------------------------------GEN BBST */
-
+// TREE NUM14: generate balance search tree
 tree_node *generate(int arr[], int start, int end)
 {
     if (start > end) return NULL;
@@ -405,10 +384,7 @@ tree_node *generate_balance_BST(int arr[], int len)
     return generate(arr, 0, len - 1);
 }
 
-/*-------------------------------------------------------------------------GEN BBST */
-
-/*-------------------------------------------------------------------------NEXT NODE */
-
+// TREE NUM15: get next
 tree_node *get_left_most(tree_node *root)
 {
     if (root == NULL) return NULL;
@@ -433,10 +409,8 @@ tree_node *get_next(tree_node *root)
     }
 }
 
-/*-------------------------------------------------------------------------NEXT NODE */
 
-/*-------------------------------------------------------------------------LOWEST ANCESTOR */
-
+// TREE NUM16: lowest ancestor
 tree_node *lowest_ancestor(tree_node *root, int val1, int val2)
 {
     if (root == NULL) return NULL;
@@ -449,10 +423,7 @@ tree_node *lowest_ancestor(tree_node *root, int val1, int val2)
     return left != NULL ? left : right;
 }
 
-/*-------------------------------------------------------------------------LOWEST ANCESTOR */
-
-/*------------------------------------------------------------------------- PRE IN TO TREE*/
-
+// TREE NUM17: pre in 2 tree
 tree_node *pre_in(int pre[], int pi, int pj, int in[], int ni, int nj, 
       std::map<int, int> &in_map)
 {
@@ -478,10 +449,7 @@ tree_node *pre_in_2_tree(int pre[], int in[], int len)
     return pre_in(pre, 0, len - 1, in, 0, len - 1, in_map);
 }
 
-/*------------------------------------------------------------------------- PRE IN TO TREE*/
-
-/*------------------------------------------------------------------------- POST ARR*/
-
+// TREE NUM18: pos to tree
 int set_pos(int pre[], int pi, int pj, int in[], int ni, int nj,
       int result[], int si, std::map<int, int> &in_map)
 {
@@ -506,9 +474,6 @@ int *get_pos_arr(int pre[], int in[], int len)
     set_pos(pre, 0, len - 1, in, 0, len - 1, result, len - 1, in_map);
     return result;
 }
-
-/*------------------------------------------------------------------------- POST ARR*/
-
 
 void test(tree_node *root)
 {

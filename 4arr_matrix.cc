@@ -4,8 +4,7 @@
 
 #define K 6
 
-/*------------------------------------------------------------spiril print*/
-
+// ARRAY NUM1: print matrix edge
 void print_edge(int arr[][4], int lux, int luy, int rdx, int rdy)
 {
     if (lux == rdx) {
@@ -43,10 +42,6 @@ void print_edge(int arr[][4], int lux, int luy, int rdx, int rdy)
     return;
 }
 
-/*------------------------------------------------------------spiril print*/
-
-/*------------------------------------------------------------clockwise print*/
-
 void process_edge(int arr[][4], int lux, int luy, int rdx, int rdy)
 {
     int n = rdx - lux;
@@ -60,9 +55,8 @@ void process_edge(int arr[][4], int lux, int luy, int rdx, int rdy)
     return;
 }
 
-/*------------------------------------------------------------clockwise print*/
 
-// clockwise
+// ARRAY NUM2: clockwise print matrix
 void spiril_print(int **arr1, int n, int m)
 {
     std::cout << "------------------" << std::endl;
@@ -94,13 +88,7 @@ void spiril_print(int **arr1, int n, int m)
     return;
 }
 
-
-/*------------------------------------------------------------min K */
-// see heap.c
-/*------------------------------------------------------------min K*/
-
-/*--------------------------------------------disordered; get min reorder len*/
-
+// ARRAY NUM3: disordered; get min reorder len
 void get_min_reorder_len(int arr[], int len)
 {
     if (arr == NULL || len == 0 ) return; 
@@ -129,10 +117,7 @@ void get_min_reorder_len(int arr[], int len)
     std::cout << max_target_idx - min_target_idx + 1 << std::endl;
 }
 
-/*--------------------------------------------disordered; get min reorder len*/
-
-/*--------------------------------------------ordered matrix; is value in it */
-
+// ARRAY NUM4: ordered matrix; is value in it
 bool is_vale_in_ordered_matrix(int arr[][4], int val)
 {
     int row = 0;
@@ -149,11 +134,8 @@ bool is_vale_in_ordered_matrix(int arr[][4], int val)
     return false; 
 }
 
-/*--------------------------------------------ordered matrix; is value in it */
-
-/*-------------------------------------------------------------------------- */
 // 5 5 3 2 6 4 3   return len(5 3 2 6 4)
-
+// ARRAY NUM5: getLIL
 int getLIL(int arr[], int len)
 {
     if (arr == NULL || len == 0) return 0;
@@ -179,9 +161,7 @@ int getLIL(int arr[], int len)
     return rlen;
 }
 
-/*-------------------------------------------------------------------------- */
-
-/*--------------------------disordered; gt 0; arr; get sum is K's max length */
+// ARRAY NUM6: disordered; gt 0; arr; get sum is K's max length
 int get_max_length(int arr[], int len)
 {
     if (arr == NULL || len == 0 || K <= 0) return 0; 
@@ -209,6 +189,7 @@ int get_max_length(int arr[], int len)
     return l; 
 }
 
+// ARRAY NUM7: disordered; arr; get sum is K's max length
 int get_max_length1(int arr[], int len)
 {
     if (arr == NULL || len == 0 || K <= 0) return 0; 
@@ -237,12 +218,9 @@ int get_max_length1(int arr[], int len)
     }
     return l;
 }
-/*--------------------------disordered; gt 0; arr; get sum is K's max length */
 
-
-/*--------------------------------------------------------------------ordered*/
 // -8 -4 -3 0 1 2 4 5 8 9     // fun1: K = 10 return <1 9> <2 8>
-
+// ARRAY NUM8: print uniq pair sum is K
 void print_uniq_pair(int arr[], int len, int k)
 {
     if (arr == NULL || len == 0 || len == 1) return; 
@@ -263,10 +241,8 @@ void print_uniq_pair(int arr[], int len, int k)
     return;
 }
 
-/*--------------------------------------------------------------------ordered*/
-
-/*-----------------------------------------------------------------disordered*/
 // 1 2 5 3 4 --> 1 2 3 4 5
+// ARRAY NUM9: sort nature
 void sort_nature(int arr[], int len)
 {
     if (arr == NULL || len == 0 || len == 1) return; 
@@ -282,11 +258,7 @@ void sort_nature(int arr[], int len)
     return;
 }
 
-/*-----------------------------------------------------------------disordered*/
-
-/*-----------------------------------------------------------------disordered*/
-// odd_idx is odd val OR even_idx is even val
-
+// ARRAY NUM9: odd_idx is odd val OR even_idx is even val
 void my_swap(int arr[], int x, int y)
 {
     int tmp = arr[x];
@@ -311,10 +283,7 @@ void odd_even_sort(int arr[], int len)
     }
 }
 
-/*-----------------------------------------------------------------disordered*/
-
-/*---------------------------------------------------------disordered max_sum*/
-
+// ARRAY NUM10: max sum
 int max_sum(int arr[], int len)
 {
     if (arr == NULL || len == 0 || len == 1) return 0;
@@ -328,6 +297,7 @@ int max_sum(int arr[], int len)
     return max; 
 }
 
+// ARRAY NUM10: max child matrix sum
 int child_matrix_max_sum(int arr[][4], int len)
 {
     if (arr == NULL || len == 0) return 0;
@@ -349,14 +319,7 @@ int child_matrix_max_sum(int arr[][4], int len)
     return max;
 }
 
-/*---------------------------------------------------------disordered max_sum*/
-
-/*--------------------------------------------------------------partional min*/
-// see 1.6bs
-/*--------------------------------------------------------------partional min*/
-
-/*------------------------------------------------------------------max multi*/
-
+// ARRAY NUM11: max multi
 int max_multi(int arr[], int len)
 {
     if (arr == NULL || len == 0) return 0;
@@ -378,10 +341,7 @@ int max_multi(int arr[], int len)
     return res;
 }
 
-/*------------------------------------------------------------------max multi*/
-
-/*-----------------------------------------------------------------max matrix*/
-
+// ARRAY NUM12: has path to end
 void set_pre_right_down_matrix(int arr[4][4], int right[][4], int down[][4])
 {
     int r = 4;
@@ -437,10 +397,7 @@ int get_max_square(int arr[4][4])
     }
 }
 
-/*-----------------------------------------------------------------max matrix*/
-
-/*-------------------------------------------------multi arr not contain self*/
-
+// ARRAY NUM13: multi arry not contains self
 void multi_arr(int arr[], int len)
 {
     if (arr == NULL || len == 0 || len == 1) return;
@@ -459,10 +416,7 @@ void multi_arr(int arr[], int len)
     multi_arr[0] = tmp;
 }
 
-/*-------------------------------------------------multi arr not contain self*/
-
-/*----------------------------------------------------------------arr partion*/
-
+// ARRAY NUM14: arr partion
 void arr_partion(int arr[], int len)
 {
     if (arr == NULL || len == 0 || len == 1) return;
@@ -479,10 +433,7 @@ void arr_partion(int arr[], int len)
     }
 }
 
-/*----------------------------------------------------------------arr partion*/
-
-/*---------------------------------------------------------------min path val*/
-
+// ARRAY NUM15: min path
 void walk_to(int pre, int r, int c, int arr[4][4], int map[4][4], 
         std::queue<int> &rq, std::queue<int> &cq) {
     if (r < 0 || r == 4 || c < 0 || c == 4 ||
@@ -523,8 +474,6 @@ void min_path_val(int arr[4][4])
         walk_to(map[r][c], r, c + 1, arr, map, rq, cq);
     }
 }
-
-/*---------------------------------------------------------------min path val*/
 
 void test(int arr[], int len)
 {

@@ -31,6 +31,7 @@ void show_list_node(list_node *l)
     std::cout << std::endl;
 }
 
+// LIST NUM1: window max
 void wnd_max()
 {
     #define WIN_SIZE 3
@@ -56,6 +57,7 @@ void wnd_max()
     }
 }
 
+// LIST NUM2: print same
 void print_same()
 {
     std::list<int> l1; // already ordered
@@ -82,6 +84,7 @@ void print_same()
     }
 }
 
+// LIST NUM3: del back idx
 void del_back(list_node *head)
 {
     #define BACK_IDX 1
@@ -112,6 +115,7 @@ void del_back(list_node *head)
     // dlist TODO
 }
 
+// LIST NUM4: del mid idx
 list_node *del_mid(list_node *head)
 {
     if (!head || !head->next) return head;
@@ -158,7 +162,7 @@ list_node *del_mid(list_node *head)
 #endif
 }
 
-//phn
+// LIST NUM5: reverse list
 list_node *reverse_list(list_node *head)
 {
     if (head == NULL) return head;
@@ -174,6 +178,7 @@ list_node *reverse_list(list_node *head)
     return pre;
 }
 
+// LIST NUM6: reverse part-list
 list_node *reverse_partion_list(list_node *head, 
       int from_hidx, int to_hidx) // 2 4
 {
@@ -248,6 +253,7 @@ list_node *reverse_every_partion_list(list_node *head, int len)
 }
 #endif
 
+// LIST NUM7: reverse dlist
 dlist_node *reverse_dlist(dlist_node *head)
 {
     if (head == NULL) return head;
@@ -264,6 +270,7 @@ dlist_node *reverse_dlist(dlist_node *head)
     return pre;
 }
 
+// LIST NUM8: joself list
 void joself_list(list_node *head)
 {
     if (head == NULL) return;
@@ -285,6 +292,7 @@ void joself_list(list_node *head)
     }
 }
 
+// LIST NUM9: palindrome list
 void palindrome_list(list_node *head)
 {
     if (head == NULL) return;
@@ -319,6 +327,7 @@ void palindrome_list(list_node *head)
     std::cout << "true" << std::endl;
 }
 
+// LIST NUM10: quick list
 void quick_arr(int arr[], int len, int base)
 {
     int i = 0;
@@ -347,6 +356,7 @@ void quick_arr(int arr[], int len, int base)
     }
 }
 
+// LIST NUM11: list sum add
 void list_add(list_node *l1, list_node *l2)
 {
     if (l1 == NULL || l2 == NULL) return;
@@ -379,6 +389,7 @@ void list_add(list_node *l1, list_node *l2)
     }
 }
 
+// LIST NUM12: copy random-list
 void list_copy(list_node *l1)
 {
     if (l1 == NULL) return;
@@ -418,6 +429,7 @@ void list_copy(list_node *l1)
     }
 }
 
+// LIST NUM13: cycle list
 void list_cycle(list_node *l1)
 {
     if (l1 == NULL) return;
@@ -443,6 +455,7 @@ void list_cycle(list_node *l1)
 #endif
 }
 
+// LIST NUM14: del val list
 list_node *list_del_val(list_node *l1, int val)
 {
     if (l1 == NULL) return l1;
@@ -463,6 +476,7 @@ list_node *list_del_val(list_node *l1, int val)
     return l1;
 }
 
+// LIST NUM15: del dup list
 void list_del_dup(list_node *l1)
 {
     if (l1 == NULL) return;
@@ -484,6 +498,7 @@ void list_del_dup(list_node *l1)
     }
 }
 
+// LIST NUM16: select order list
 list_node *list_select_order(list_node *head)
 {
 #if 0
@@ -604,6 +619,7 @@ list_node *list_select_order(list_node *head)
 #endif
 }
 
+// LIST NUM17: insert ordered clist
 void insert_ordered_clist(clist_node *head, int num)
 {
     if (head == NULL) return;
@@ -622,6 +638,7 @@ void insert_ordered_clist(clist_node *head, int num)
     n_node.next = cur;
 }
 
+// LIST NUM18: merge list
 list_node *merge_ordered_list(list_node *l1, list_node *l2)
 {
     if (l1 == NULL) return l2;
@@ -660,6 +677,7 @@ list_node *merge_ordered_list(list_node *l1, list_node *l2)
     return new_head;
 }
 
+// LIST NUM19: merge lr list
 list_node *merge_lr_list(list_node* head)
 {
     if (head == NULL) return NULL;
@@ -753,32 +771,4 @@ int main()
     list_node_test();
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
