@@ -401,7 +401,7 @@ tree_node *get_next(tree_node *root)
         return get_left_most(root->right);
     } else {
         tree_node *parent = root->parent;
-        while (parent != NULL && parent->left != NULL) {
+        while (parent != NULL && parent->left != root) {
             root = parent;
             parent = root->parent;
         }
@@ -449,7 +449,7 @@ tree_node *pre_in_2_tree(int pre[], int in[], int len)
     return pre_in(pre, 0, len - 1, in, 0, len - 1, in_map);
 }
 
-// TREE NUM18: pos to tree
+// TREE NUM18: pre in generate pos tree
 int set_pos(int pre[], int pi, int pj, int in[], int ni, int nj,
       int result[], int si, std::map<int, int> &in_map)
 {

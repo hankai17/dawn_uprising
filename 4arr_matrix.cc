@@ -306,6 +306,7 @@ int child_matrix_max_sum(int arr[][4], int len)
     int cur;
 
     for (int i = 0; i < len; i++) {
+        memset(sum_arr, 0x0, sizeof(int) * 4);
         for (int j = i; j < len; j++) {
             cur = 0; 
             for (int k = 0; i < len; k++) {
@@ -341,7 +342,7 @@ int max_multi(int arr[], int len)
     return res;
 }
 
-// ARRAY NUM12: has path to end
+// ARRAY NUM12: get max square
 void set_pre_right_down_matrix(int arr[4][4], int right[][4], int down[][4])
 {
     int r = 4;
