@@ -31,13 +31,12 @@ void show_list_node(list_node *l)
     std::cout << std::endl;
 }
 
-// LIST NUM1: window max
+// LIST NUM1: arr(not list); window max
 void wnd_max()
 {
     #define WIN_SIZE 3
     int arr[] = { 1, 9, 2, 8, 3, 8, 6, 5 };
     std::deque<int> max;
-    std::deque<int> res;
 
     for (int i = 0; i < sizeof(arr)/sizeof(arr[0]); i++) {
         while (!max.empty() && arr[i] > arr[max.back()]) {
@@ -126,7 +125,7 @@ list_node *del_mid(list_node *head)
         cur->next->next != NULL) { // If two node. get the first as mid
         mid = mid->next;
         cur = cur->next->next;
-    }
+    } // That is get mid node
 #elif 0
     if (!head->next) return head;
     if (!head->next->next) return head->next;
@@ -190,7 +189,7 @@ list_node *reverse_partion_list(list_node *head,
     if (from_hidx == 1) pre = NULL;
     while (cur) {
         if (i == from_hidx - 2) {
-            pre= cur; 
+            pre = cur; 
         } 
         if (i == to_hidx) {
             after = cur; 
@@ -221,37 +220,6 @@ list_node *reverse_partion_list(list_node *head,
         return head;
     }
 }
-
-#if 0
-list_node *reverse_every_partion_list(list_node *head, int len)
-{
-    if (head == NULL || len <= 1) return head;
-    int i = 0;
-    list_node *pre;
-    list_node *cur = head;
-    list_node *next;
-
-    list_node *n_start = NULL;
-    list_node *n_end = NULL;
-    while (cur != NULL) {
-        if (i == len - 1) {
-            n_start = pre; 
-            pre_end->next = pre;
-            i = 0;
-        }
-
-        if (i == 0) {
-            n_end = cur;
-        }
-        next = cur->next;
-        cur->next = pre;
-
-        pre = cur;
-        cur = cur->next;
-        i++;
-    }
-}
-#endif
 
 // LIST NUM7: reverse dlist
 dlist_node *reverse_dlist(dlist_node *head)
@@ -713,6 +681,49 @@ list_node *merge_lr_list(list_node* head)
         tmp->next = right;
     }
     return new_head;
+}
+
+// LIST NUM20: reverse every partion list
+void resign_list(list_node *left, list_node *start, 
+            list_node *end, list_node *right)
+{
+    list_node *pre = start;
+    list_node *cur = start->next;
+    list_node *next;
+    while (cur != right) {
+        next = cur->next;
+        cur->next = pre;
+
+        pre = cur;
+        cur = next;
+    }
+
+    if (left) {
+        left->next = end;
+    }
+    start->next = right;
+}
+
+list_node *reverse_every_partion_list(list_node *head, int len)
+{
+    if (head == NULL || len <= 1) return head;
+    list_node *left = NULL;
+    list_node *start = NULL;
+    list_node *next = NULL;
+    list_node *n_head = NULL;
+
+    while (cur != NULL) {
+        next = cur->next;
+        if (i == len) {
+            n_head = n_head == NULL ? cur : n_head;
+            start = left == NULL ? head : left->next;
+            resign_list(left, start, cur, next);
+            left = start;
+            i = 0;
+        }
+        i++;
+        cur = next;
+    }
 }
 
 void list_node_test()
