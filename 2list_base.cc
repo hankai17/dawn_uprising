@@ -102,7 +102,7 @@ void del_back(list_node *head)
     int i = 0;
     while (curr) {
         if (i == del_idx_pre) {
-            curr->next = curr->next->next; 
+            curr->next = curr->next->next;
             break;
         }
         curr = curr->next;
@@ -112,6 +112,26 @@ void del_back(list_node *head)
     show_list_node(head);
 
     // dlist TODO
+}
+
+list_node* del_back1(list_node *head)
+{
+    #define BACK_IDX 1
+    if (head == NULL) return NULL;
+    int back_idx = BACK_IDX;
+
+    list_node *fast = head;  
+    list_node *slow = head;
+    while (back_idx--) {
+        fast = fast->next;
+    }
+    if (fast == NULL) return head->next;
+    while (fast->next) {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    slow->next = slow->next->next;
+    return head;
 }
 
 // LIST NUM4: del mid idx
@@ -466,6 +486,13 @@ void list_del_dup(list_node *l1)
     }
 }
 
+list_node *list_del_dup_rec(list_node *l1)
+{
+    if (l1 == NULL || l1->next == NULL) return l1;
+    l1->next = list_del_dup_rec(l1->next);
+    return l1->data == l1->next->data ? l1->next : l1;
+}
+
 // LIST NUM16: select order list
 list_node *list_select_order(list_node *head)
 {
@@ -645,6 +672,19 @@ list_node *merge_ordered_list(list_node *l1, list_node *l2)
     return new_head;
 }
 
+list_node *merge_ordered_list_rec(list_node *l1, list_node *l2)
+{
+    if (l1 == NULL) return l2;
+    if (l2 == NULL) return l1;
+    if (l1->data < l2->data) {
+        l1->next = merge_ordered_list_rec(l1->next, l2);
+        return l1;
+    } else {
+        l2->next = merge_ordered_list_rec(l1, l2->next);
+        return l2;
+    }
+}
+
 // LIST NUM19: merge lr list
 list_node *merge_lr_list(list_node* head)
 {
@@ -711,6 +751,8 @@ list_node *reverse_every_partion_list(list_node *head, int len)
     list_node *start = NULL;
     list_node *next = NULL;
     list_node *n_head = NULL;
+    list_node *cur = head;
+    int i = 1;
 
     while (cur != NULL) {
         next = cur->next;
@@ -724,6 +766,41 @@ list_node *reverse_every_partion_list(list_node *head, int len)
         i++;
         cur = next;
     }
+    return n_head;
+}
+
+// LIST NUM21: list cross
+void list_cross(list_node *l1, list_node *l2)
+{
+    if (l1 == NULL || l2 == NULL) return;
+    list_node *h1 = l1;
+    list_node *h2 = l2;
+    while (h1 != h2) {
+        h1 = h1 == NULL ? l1 : h1->next;
+        h2 = h2 == NULL ? l2 : h2->next;
+    }
+    // h1 just cross node
+}
+
+// LIST NUM22: swap pair 
+list_node *swap_pair(list_node *head)
+{
+    //return reverse_every_partion_list(head, 2);
+    list_node *node;
+    list_node *pre = node;
+    node->next = head;
+
+    while (pre->next != NULL && 
+          pre->next->next != NULL) {
+        list_node *l1 = pre->next;
+        list_node *l2 = pre->next->next;
+        list_node *next = l2->next;
+        l1->next = next;
+        l2->next = l1;
+        pre->next = l2;
+        pre = l1;
+    }
+    return node->next;
 }
 
 void list_node_test()
@@ -748,7 +825,9 @@ void list_node_test()
     ll3.next = &ll4; ll4.next = &ll5;
     ll5.next = NULL;
 
-    //del_back(&l1);
+    show_list_node(&l1);
+    list_node *tmp = swap_pair(&l1);
+    show_list_node(tmp);
     //del_mid(&l1);
     //list_node *tmp = reverse_list(&l1);
     //list_node *tmp = reverse_partion_list(&l1, 1, 2);
@@ -771,8 +850,10 @@ void list_node_test()
     //list_node *tmp = list_del_val(&l1, 4);
     //list_node *tmp = list_select_order(&l1);
     //list_node *tmp = merge_ordered_list(&l1, &ll1);
-    list_node *tmp = merge_lr_list(&l1);
-    show_list_node(tmp);
+    //list_node *tmp = merge_lr_list(&l1);
+    //show_list_node(&l1);
+    //list_node *tmp = reverse_every_partion_list(&l1, 2);
+    //show_list_node(tmp);
 }
 
 int main() 
