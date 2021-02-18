@@ -1,6 +1,11 @@
 #include <iostream>
 #include <map>
+#include <stack>
+#include <list>
+#include <vector>
 #include <queue>
+#include <string.h>
+#include <stdlib.h>
 
 #define K 6
 
@@ -476,19 +481,74 @@ void min_path_val(int arr[4][4])
     }
 }
 
+// ARRAY NUM16: water pool
+int next_max_dis(int arr[], int len)
+{
+    if (arr == NULL || len == 1) {
+    	return 0;
+    }
+    std::stack<int> s;
+    int l[len] = {0};
+    int i = 0;
+    
+    for (; i < len; i++) {
+        while (!s.empty() && arr[i] > arr[s.top()]) {
+            //std::cout << "cur: " << arr[i] << ", top: " << s.top() << 
+                //", arr[top]: " << arr[s.top()] << std::endl;
+            int idx = s.top();
+            s.pop();
+            l[idx] = i - idx; 
+        }
+        s.push(i);
+    }
+    for (i = 0; i < len; i++) {
+        std::cout << l[i] << " ";
+    }
+}
+
+int water_pool(int arr[], int len) 
+{
+    if (arr == NULL || len == 1) {
+    	return 0;
+    }
+    int result = 0;
+    int i = 0;
+    std::stack<int> s;
+
+    for (; i < len; i++) {
+        while (!s.empty() && arr[i] > arr[s.top()]) {
+            int idx = s.top();
+            s.pop();
+            if (s.empty()) break;
+
+            int distance = i - s.top() - 1;
+            int tem_height = std::min(arr[i], arr[s.top()]) 
+                - arr[idx];
+            result += tem_height  * distance;
+            //std::cout << "res: " << tem_height << " * " << distance << std::endl;
+        }
+        s.push(i);
+    }
+    return result;
+}
+
 void test(int arr[], int len)
 {
     //std::cout << get_max_length(arr, len) << std::endl;
     //std::cout << get_max_length1(arr, len) << std::endl;
     //spiril_print(NULL, 0, 0);
     //std::cout << getLIL(arr, len) << std::endl;
-    arr_partion(arr, len);
+    //arr_partion(arr, len);
+    //next_max_dis(arr, len);
+    std::cout << "water pool: " << water_pool(arr, len) << std::endl;;
 }
 
 int main()
 {
     //int arr[] = { 1, 9, 3, 4 };
-    int arr[] = { 1, 2, 2, 2, 3, 3, 4, 5, 6, 6, 7, 7, 8, 8, 8, 9 };
+    //int arr[] = { 1, 2, 2, 2, 3, 3, 4, 5, 6, 6, 7, 7, 8, 8, 8, 9 };
+    //int arr[] = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
+    int arr[] = { 1, 6, 3, 2, 5, 7, 2 };
     test(arr, sizeof(arr)/sizeof(arr[0]));
     return 0;
 }

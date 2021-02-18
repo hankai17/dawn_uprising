@@ -2,6 +2,7 @@
 #include <math.h>
 #include <list>
 #include <deque>
+#include <stack>
 
 struct list_node {
     int               data;
@@ -727,6 +728,7 @@ list_node *merge_lr_list(list_node* head)
 void resign_list(list_node *left, list_node *start, 
             list_node *end, list_node *right)
 {
+#if 0
     list_node *pre = start;
     list_node *cur = start->next;
     list_node *next;
@@ -742,6 +744,22 @@ void resign_list(list_node *left, list_node *start,
         left->next = end;
     }
     start->next = right;
+#else
+    list_node *pre = NULL;
+    list_node *cur = start;
+    list_node *next = NULL;
+    while (cur != right) {
+        next = cur->next;
+        cur->next = pre;
+
+        pre = cur;
+        cur = next;
+    }
+    if (left) {
+        left->next = pre;
+    }
+    start->next = right;
+#endif
 }
 
 list_node *reverse_every_partion_list(list_node *head, int len)
@@ -825,9 +843,9 @@ void list_node_test()
     ll3.next = &ll4; ll4.next = &ll5;
     ll5.next = NULL;
 
-    show_list_node(&l1);
-    list_node *tmp = swap_pair(&l1);
-    show_list_node(tmp);
+    //show_list_node(&l1);
+    //list_node *tmp = swap_pair(&l1);
+    //show_list_node(tmp);
     //del_mid(&l1);
     //list_node *tmp = reverse_list(&l1);
     //list_node *tmp = reverse_partion_list(&l1, 1, 2);
@@ -851,9 +869,9 @@ void list_node_test()
     //list_node *tmp = list_select_order(&l1);
     //list_node *tmp = merge_ordered_list(&l1, &ll1);
     //list_node *tmp = merge_lr_list(&l1);
-    //show_list_node(&l1);
-    //list_node *tmp = reverse_every_partion_list(&l1, 2);
-    //show_list_node(tmp);
+    show_list_node(&l1);
+    list_node *tmp = reverse_every_partion_list(&l1, 4);
+    show_list_node(tmp);
 }
 
 int main() 
