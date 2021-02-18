@@ -580,7 +580,7 @@ list_node *list_select_order(list_node *head)
         }
     }
     return n_node;
-#elif ( 1 == 1)
+#elif ( 1 == 1) // 最小节点前插
     if (head == NULL || head->next == NULL) return head;
     list_node *n_node = NULL;
     list_node *pre_min;
