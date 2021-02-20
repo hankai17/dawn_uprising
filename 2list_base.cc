@@ -644,7 +644,7 @@ list_node *merge_ordered_list(list_node *l1, list_node *l2)
     list_node *cur2 = l2;
     list_node *n_tmp;
     list_node *new_head;
-    if (cur1->data <= cur2->data) {
+    if (cur1->data <= cur2->data) { // TODO optimize
         n_tmp = cur1; 
         cur1 = cur1->next;
     } else {
@@ -794,8 +794,8 @@ void list_cross(list_node *l1, list_node *l2)
     list_node *h1 = l1;
     list_node *h2 = l2;
     while (h1 != h2) {
-        h1 = h1 == NULL ? l1 : h1->next;
-        h2 = h2 == NULL ? l2 : h2->next;
+        h1 = h1 == NULL ? l2 : h1->next;
+        h2 = h2 == NULL ? l1 : h2->next;
     }
     // h1 just cross node
 }
@@ -821,12 +821,76 @@ list_node *swap_pair(list_node *head)
     return node->next;
 }
 
+// LIST NUM23: merge sort
+list_node *cut(list_node *head, int i) // cut list & return right
+{
+    list_node *cur = head;
+    while (--i && cur) {
+        cur = cur->next;
+    }
+    if (!cur) return NULL;
+    list_node *r = cur->next;
+    cur->next = NULL;
+    return r;
+}
+
+list_node *merge(list_node *l, list_node *r)
+{
+    list_node n_tmp;
+    list_node *p = &n_tmp;
+    while (l && r) {
+        if (l->data > r->data) {
+            p->next = r; 
+            p = r;
+            r = r->next;
+        } else {
+            p->next = l; 
+            p = l;
+            l = l->next;
+        }
+    }
+    p->next = l ? l : r;
+    return n_tmp.next;
+}
+
+list_node *merge_sort(list_node *head)
+{
+    if (head == NULL) return NULL;
+    list_node tmp;
+    list_node *p = head;
+    int len = 0;
+    while (p) {
+        p = p->next;
+        len++;
+    }
+    list_node n_tmp;
+    n_tmp.next = head;
+
+    for (int i = 1; i < len;) {
+        list_node *cur = n_tmp.next;
+        list_node *tail = &n_tmp;
+
+        while (cur) {
+            list_node *l = cur;
+            list_node *r = cut(cur, i);
+            cur = cut(r, i); // next begin
+            tail->next = merge(l, r);
+
+            while (tail->next) {
+                tail = tail->next;
+            }
+        }
+        i = i << 1;
+    }
+    return n_tmp.next;
+}
+
 void list_node_test()
 {
-    list_node l1; l1.data = 1;
+    list_node l1; l1.data = 8;
     list_node l2; l2.data = 3;
-    list_node l3; l3.data = 5;
-    list_node l4; l4.data = 7;
+    list_node l3; l3.data = 7;
+    list_node l4; l4.data = 2;
     list_node l5; l5.data = 9;
 
     l1.next = &l2; l2.next = &l3;
@@ -870,7 +934,8 @@ void list_node_test()
     //list_node *tmp = merge_ordered_list(&l1, &ll1);
     //list_node *tmp = merge_lr_list(&l1);
     show_list_node(&l1);
-    list_node *tmp = reverse_every_partion_list(&l1, 4);
+    //list_node *tmp = reverse_every_partion_list(&l1, 4);
+    list_node *tmp = merge_sort(&l1);
     show_list_node(tmp);
 }
 

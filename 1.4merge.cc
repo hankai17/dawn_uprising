@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
+#include<iostream>
 
 #define MAX 10
 
@@ -69,6 +70,49 @@ void MergeSort(int arr[],int start,int end,int tempSpace[]){
 	Merge(arr, start, end, mid, tempSpace);
 }
 
+void my_swap(int arr[], int i, int j)
+{
+    int tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+}
+
+// failed eg: [1 3 5] [2 4 6] how to merge arr only use a tmp value ? 
+void my_merge(int arr[], int left_idx, int right_idx, int len)
+{
+    int i = 0;
+    int j = 0;
+    
+    std::cout << "left_idx: " << left_idx <<
+      " right_idx: " << right_idx << std::endl;
+    while (i < len && j < len) {
+        if (arr[left_idx] > arr[right_idx]) {
+            my_swap(arr, left_idx, right_idx);
+            left_idx++;
+            i++;
+        } else {
+            left_idx++;
+            j++;
+        }
+    }
+}
+
+void merge_sort(int arr[], int len)
+{
+    if (arr == NULL || len == 1) return;
+    int cur = 0;
+    for (int i = 1; i < len;) {
+        while (cur < len) {
+            int left = cur;
+            int right = cur + i;
+            cur = right + i;
+            my_merge(arr, left, right, i);
+        }
+        i = i << 1;
+	    printArray(arr, MAX);
+    }
+}
+
 int main(){
 
 	int arr[MAX];
@@ -81,7 +125,8 @@ int main(){
 	printArray(arr, MAX);
 	//冒泡排序
 	int tempSpace[MAX];
-	MergeSort(arr, 0, MAX - 1, tempSpace);
+	//MergeSort(arr, 0, MAX - 1, tempSpace);
+    merge_sort(arr, MAX);
 	//排序后
 	printArray(arr, MAX);
 
