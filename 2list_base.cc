@@ -639,38 +639,22 @@ list_node *merge_ordered_list(list_node *l1, list_node *l2)
 {
     if (l1 == NULL) return l2;
     if (l2 == NULL) return l1;
+    list_node n_tmp;
+    list_node *p = &n_tmp;
 
-    list_node *cur1 = l1;
-    list_node *cur2 = l2;
-    list_node *n_tmp;
-    list_node *new_head;
-    if (cur1->data <= cur2->data) { // TODO optimize
-        n_tmp = cur1; 
-        cur1 = cur1->next;
-    } else {
-        n_tmp = cur2; 
-        cur2 = cur2->next;
-    }
-    new_head = n_tmp;
-
-    while (cur1 != NULL && cur2 != NULL) {
-        if (cur1->data <= cur2->data) {
-            n_tmp->next = cur1; 
-            cur1 = cur1->next;
+    while (l1 != NULL && l2 != NULL) {
+        if (l1->data <= l2->data) {
+            p->next = l1; 
+            p = l1;
+            l1 = l1->next;
         } else {
-            n_tmp->next = cur2; 
-            cur2 = cur2->next;
+            p->next = l2;
+            p = l2;
+            l2 = l2->next;
         }
-        n_tmp = n_tmp->next;
     }
-
-    if (cur1) {
-        n_tmp->next = cur1;
-    }
-    if (cur2) {
-        n_tmp->next = cur2;
-    }
-    return new_head;
+    p->next = l1 == NULL ? l2 : l1;
+    return n_tmp.next;
 }
 
 list_node *merge_ordered_list_rec(list_node *l1, list_node *l2)
@@ -873,7 +857,7 @@ list_node *merge_sort(list_node *head)
         while (cur) {
             list_node *l = cur;
             list_node *r = cut(cur, i);
-            cur = cut(r, i); // next begin
+            cur = cut(r, i); // next begin & cut r
             tail->next = merge(l, r);
 
             while (tail->next) {
@@ -887,10 +871,10 @@ list_node *merge_sort(list_node *head)
 
 void list_node_test()
 {
-    list_node l1; l1.data = 8;
+    list_node l1; l1.data = 1;
     list_node l2; l2.data = 3;
-    list_node l3; l3.data = 7;
-    list_node l4; l4.data = 2;
+    list_node l3; l3.data = 5;
+    list_node l4; l4.data = 7;
     list_node l5; l5.data = 9;
 
     l1.next = &l2; l2.next = &l3;
@@ -931,11 +915,12 @@ void list_node_test()
     //list_del_dup(&l1);
     //list_node *tmp = list_del_val(&l1, 4);
     //list_node *tmp = list_select_order(&l1);
-    //list_node *tmp = merge_ordered_list(&l1, &ll1);
     //list_node *tmp = merge_lr_list(&l1);
+
     show_list_node(&l1);
-    //list_node *tmp = reverse_every_partion_list(&l1, 4);
+    ////list_node *tmp = reverse_every_partion_list(&l1, 4);
     list_node *tmp = merge_sort(&l1);
+    //list_node *tmp = merge_ordered_list(&l1, &ll1);
     show_list_node(tmp);
 }
 
