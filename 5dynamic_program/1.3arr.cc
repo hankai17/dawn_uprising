@@ -30,9 +30,34 @@ int max_square(std::vector<std::vector<int>> matrix) {
   return max * max;
 }
 
+// max increase subseq
+int max_increase_subseq(std::vector<int> arr)
+{
+    if (arr.size() <= 1) return 1;
+    std::vector<int> dp;
+    dp.resize(arr.size());
+
+    for (int i = 0; i < arr.size(); i++) {
+        dp[i] = 1;
+        for (int j = 0; j < i; j++) {
+            if (arr[i] > arr[j]) {
+                dp[i] = std::max(dp[i], dp[j] + 1);
+            }
+        }
+    }
+
+    int res = 0;
+    for (int i = 0; i < dp.size(); i++) {
+        res = std::max(res, dp[i]);
+    }
+    return res;
+}
+
 int test()
 {
-
+    std::vector<int> v = { 10,9,2,5,3,7,101,18 };
+    std::cout << max_increase_subseq(v) << std::endl;
+    return 0;
 }
 
 int main()

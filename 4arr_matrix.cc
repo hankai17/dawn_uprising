@@ -532,6 +532,34 @@ int water_pool(int arr[], int len)
     return result;
 }
 
+// ARRAY NUM17: search dup
+int search_dup(int arr[], int len)
+{
+    if (arr == NULL || len <= 1) return -1;
+    int walk = arr[0];
+    int run = arr[arr[0]];
+    while (walk != run) {
+        walk = arr[walk];
+        run = arr[arr[run]];
+    }
+    int p1 = arr[0];
+    while (p1 != arr[walk]) {
+        p1 = arr[p1];
+        walk = arr[walk];
+    }
+    return p1;
+}
+
+// ARRAY NUM18: count Bit
+void count_bit(int num)
+{
+    std::vector<int> res;
+    res.resize(num + 1);
+    for (int i = 1; i <= num; i++) {
+        res[i] = res[i & (i - 1)] + 1;
+    }
+}
+
 void test(int arr[], int len)
 {
     //std::cout << get_max_length(arr, len) << std::endl;
@@ -540,7 +568,9 @@ void test(int arr[], int len)
     //std::cout << getLIL(arr, len) << std::endl;
     //arr_partion(arr, len);
     //next_max_dis(arr, len);
-    std::cout << "water pool: " << water_pool(arr, len) << std::endl;;
+    //std::cout << "water pool: " << water_pool(arr, len) << std::endl;;
+    std::cout << "search dup: " << search_dup(arr, len) << std::endl;
+
 }
 
 int main()
@@ -548,7 +578,8 @@ int main()
     //int arr[] = { 1, 9, 3, 4 };
     //int arr[] = { 1, 2, 2, 2, 3, 3, 4, 5, 6, 6, 7, 7, 8, 8, 8, 9 };
     //int arr[] = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
-    int arr[] = { 1, 6, 3, 2, 5, 7, 2 };
+    //int arr[] = { 1, 6, 3, 2, 5, 7, 2 };
+    int arr[] = { 1,3,4,3,2,0 };
     test(arr, sizeof(arr)/sizeof(arr[0]));
     return 0;
 }
