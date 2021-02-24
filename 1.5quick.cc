@@ -4,7 +4,7 @@
 #include<string.h>
 #include<time.h>
 
-#define MAX 5
+#define MAX 10
 #define Index 2
 
 void printArray(int arr[], int len){
@@ -97,6 +97,43 @@ void QuickSort1(int arr[],int start, int end) {
 	}
 }
 
+void my_quick(int arr[], int start, int end, int k)
+{
+    int i = start; 
+    int j = end;
+    int base = arr[start];
+    if (i < j) {
+        while (i < j) {
+            while (i < j && base > arr[j]) {
+                j--;
+            }
+            if (i < j) {
+                arr[i] = arr[j];
+                i++;
+            }
+            while (i < j && base < arr[i]) {
+                i++;
+            }
+            if (i < j) {
+                arr[j] = arr[i];
+                j--;
+            }
+        }
+        arr[i] = base;
+        if (i == k) {
+            printf("k: %d\n", base);
+            return;
+        } else if (i > k) {
+            my_quick(arr, start, i - 1, k);
+        } else {
+            my_quick(arr, i + 1, end, k);
+        }
+    } else {
+            printf("k: %d\n", base);
+            return;
+    }
+}
+
 int main(){
 	int arr[MAX];
 	srand((unsigned int)time(NULL));
@@ -104,15 +141,14 @@ int main(){
 		arr[i] = rand() % MAX;
 	}
 
-	//排序前
 	printArray(arr, MAX);
-	//冒泡排序
 	//QuickSort(arr, 0, MAX - 1);
-	QuickSort1(arr, 0, MAX - 1);
-	//排序后
+	//QuickSort1(arr, 0, MAX - 1);
+    int k = 2;
+    my_quick(arr, 0, MAX - 1, k - 1);
+
 	printArray(arr, MAX);
 
-	system("pause");
 	return EXIT_SUCCESS;
 }
 
