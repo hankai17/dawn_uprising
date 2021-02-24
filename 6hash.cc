@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <map>
+//#include <hash_map>
+#include <queue> // pq default big heap
+
+struct cmp {
+    bool operator()(const std::pair<int, int> &lhs, 
+            const std::pair<int, int> &rhs) {
+        return lhs.second > rhs.second;
+    }                          
+};                          
+
+std::vector<int> topKFrequent(std::vector<int> &nums, int k) {
+    std::vector<int> ret;
+    if (k < 1 || nums.size() < k) return ret;
+
+    std::map<int, int> m;
+    for (int i = 0; i < nums.size(); i++) {
+        if (m.find(nums[i]) == m.end()) {
+            m[nums[i]] = 1;
+        } else {
+            m[nums[i]]++;
+        }
+    }
+
+    std::priority_queue<std::pair<int, int>,
+            std::vector<std::pair<int, int>>, cmp> pq;
+
+    for (auto iter = m.begin(); iter != m.end(); iter++) {
+        if (pq.size() < k) {
+            pq.push(*iter); // <1, 1> <2, 2>
+            std::cout << "push it->first: " << iter->first << ", " 
+                    << iter->second << std::endl;
+        } else {
+            std::pair<int, int> tmp = pq.top(); // <1, 1> <2, 2>
+            if (iter->second > tmp.second) {
+                pq.pop();
+                pq.push(*iter);         
+            }
+        }
+    }
+
+    if (pq.size() < k) {
+        return ret;
+    }
+
+    while (!pq.empty()) {
+        ret.push_back(pq.top().first);
+        pq.pop();
+    }
+    for (int i = 0; i < ret.size(); i++) {
+        std::cout << ret[i] << " ";
+    }
+    return ret;
+}
+
+
+int test()
+{
+    std::vector<int> v = { 2, 2, 3, 3, 3, 1, 4, 4, 4, 4};
+    topKFrequent(v, 2);
+    return 0;
+}
+
+int main()
+{
+    test();
+    return 0;
+}
