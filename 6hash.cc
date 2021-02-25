@@ -60,12 +60,6 @@ std::vector<int> topKFrequent(std::vector<int> &nums, int k)
     return ret;
 }
 
-bool cmp(const vector<int>& a,const vector<int>& b){
-        if(a[0] == b[0])
-            return a[1]<b[1];
-        return a[0]>b[0];
-}
-
 int test()
 {
     std::vector<int> v = { 2, 2, 3, 3, 3, 1, 4, 4, 4, 4};
