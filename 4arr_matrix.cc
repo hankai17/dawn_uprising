@@ -560,6 +560,36 @@ void count_bit(int num)
     }
 }
 
+// ARRAY NUM19: reorder tall
+//输入: [[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+//      [7, 0] [7, 1] [6, 1] [5, 0] [5, 2] [4, 4]
+//输出: [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+bool cmp(const std::vector<int>& l, const std::vector<int>& r) { // 0 down; 1 increase
+    if (l[0] == r[0]) {
+        return l[1] < r[1];
+    }
+    return l[0] > r[0];
+}
+
+std::vector<std::vector<int>>
+reorder_tall(std::vector<std::vector<int>> &people)
+{
+    for (int i = 0; i < people.size(); i++) {
+        std::cout << people[i][0] << "," << people[i][1] << " ";
+    }
+    std::cout << std::endl;
+    std::vector<std::vector<int>> res;
+    std::sort(people.begin(), people.end(), cmp); // default '<' that means increasing
+    for (int i = 0; i < people.size(); i++) {
+        if (people[i][1] >= res.size()) {
+            res.push_back(people[i]);
+        } else {
+            res.insert(res.begin() + people[i][1], people[i]);
+        }
+    }
+    return res;
+}
+
 void test(int arr[], int len)
 {
     //std::cout << get_max_length(arr, len) << std::endl;
@@ -570,6 +600,12 @@ void test(int arr[], int len)
     //next_max_dis(arr, len);
     //std::cout << "water pool: " << water_pool(arr, len) << std::endl;;
     std::cout << "search dup: " << search_dup(arr, len) << std::endl;
+    std::vector<std::vector<int>> people =
+    {{7,0}, {4,4}, {7,1}, {5,0}, {6,1}, {5,2}};
+    people = reorder_tall(people);
+    for (int i = 0; i < people.size(); i++) {
+        std::cout << people[i][0] << "," << people[i][1] << " ";
+    }
 
 }
 
