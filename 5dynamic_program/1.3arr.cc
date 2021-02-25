@@ -103,6 +103,38 @@ int can_partion(std::vector<int> &v)
     return dp[v.size() - 1][sum / 2];
 }
 
+int zero_one_pack()
+{
+    int w[] = {2,2,6,5,4};
+    int v[] = {6,3,5,4,6};
+    int c = 10;
+    //int x[] = new int[5];
+    //x[0] = 1;
+    std::vector<std::vector<int>> dp = {5, std::vector<int>(11, 0)};
+
+    for (int j = 1; j <= c; j++) {
+        if (j >= w[0]) {
+            dp[0][j] = v[0];
+        }
+    }
+
+    for (int i = 1; i < 5; i++) {
+        for (int j = 1; j <= c; j++) {
+            if (j < w[i]) {
+                dp[i][j] = dp[i-1][j];
+            } else {
+                dp[i][j] = std::max(dp[i-1][j-w[i]] + v[i], dp[i-1][j]);
+            }
+        }
+    }
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 11; j++) {
+            std::cout << dp[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 int test()
 {
     //std::vector<int> v = { 10,9,2,18,100 };
@@ -110,6 +142,7 @@ int test()
     //std::cout << max_increase_subseq(v) << std::endl;
     //std::cout << robot_max(v) << std::endl;
     std::cout << can_partion(v) << std::endl;
+    zero_one_pack();
     return 0;
 }
 
