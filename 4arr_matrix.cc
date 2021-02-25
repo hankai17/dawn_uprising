@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <queue>
+#include <algorithm>
 #include <string.h>
 #include <stdlib.h>
 
@@ -590,6 +591,27 @@ reorder_tall(std::vector<std::vector<int>> &people)
     return res;
 }
 
+// ARRAY NUM20: find disapper no
+std::vector<int> find_disapper_no(std::vector<int> &nums)
+{
+    for (int i = 0; i < nums.size(); i++) {
+        while (nums[i] != i + 1 && 
+              nums[nums[i] - 1] != nums[i]) {
+            int tmp = nums[i];
+            nums[i] = nums[nums[i] - 1];
+            nums[tmp - 1] = tmp;
+        }
+    }
+    std::vector<int> res;
+    for (int i = 0; i < nums.size(); i++) {
+        if (i + 1 != nums[i]) {
+            //res.push_back(nums[i]);
+            res.push_back(i + 1);
+        }
+    }
+    return res;
+}
+
 void test(int arr[], int len)
 {
     //std::cout << get_max_length(arr, len) << std::endl;
@@ -599,12 +621,15 @@ void test(int arr[], int len)
     //arr_partion(arr, len);
     //next_max_dis(arr, len);
     //std::cout << "water pool: " << water_pool(arr, len) << std::endl;;
-    std::cout << "search dup: " << search_dup(arr, len) << std::endl;
-    std::vector<std::vector<int>> people =
-    {{7,0}, {4,4}, {7,1}, {5,0}, {6,1}, {5,2}};
-    people = reorder_tall(people);
-    for (int i = 0; i < people.size(); i++) {
-        std::cout << people[i][0] << "," << people[i][1] << " ";
+    //std::cout << "search dup: " << search_dup(arr, len) << std::endl;
+    //std::vector<std::vector<int>> people =
+    //{{7,0}, {4,4}, {7,1}, {5,0}, {6,1}, {5,2}};
+    //people = reorder_tall(people);
+
+    std::vector<int> v = {4,3,2,7,8,2,3,1};
+    std::vector<int> res = find_disapper_no(v);
+    for (int i = 0; i < res.size(); i++) {
+        std::cout << res[i] << " ";
     }
 
 }

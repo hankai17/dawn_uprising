@@ -75,11 +75,41 @@ int robot_max(std::vector<int> arr)
     return dp[arr.size() - 1];
 }
 
+// 随机选几个不重复数最终能合成sum * 1/2 
+// dp[i][j] = dp[i - 1][j] || dp[i - 1][j - cur_val]
+int can_partion(std::vector<int> &v)
+{
+    int sum = 0;
+    for (int i = 0; i < v.size(); i++) {
+        sum += v[i];
+    }
+    if (sum % 2 != 0) return 0;
+    std::vector<std::vector<int>> dp(v.size(), 
+          std::vector<int>(sum / 2 + 1, 0));
+
+    for (int i = 0; i < v.size(); i++) {
+        for (int j = 1; j <= sum / 2; j++) {
+            if (!i) {
+                dp[0][j] = v[0] == j ? 1 : 0;
+            } else {
+                if (j >= v[i]) {
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - v[i]];
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+    }
+    return dp[v.size() - 1][sum / 2];
+}
+
 int test()
 {
-    std::vector<int> v = { 10,9,2,18,100 };
+    //std::vector<int> v = { 10,9,2,18,100 };
+    std::vector<int> v = { 1, 5, 11, 5};
     //std::cout << max_increase_subseq(v) << std::endl;
     //std::cout << robot_max(v) << std::endl;
+    std::cout << can_partion(v) << std::endl;
     return 0;
 }
 

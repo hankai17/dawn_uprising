@@ -475,6 +475,28 @@ int *get_pos_arr(int pre[], int in[], int len)
     return result;
 }
 
+// TREE NUM19: merge_tree
+tree_node *merge_tree(tree_node *root1, tree_node *root2)
+{
+    if (root1 == NULL && root2 == NULL) return NULL;
+    tree_node *new_node = new tree_node;
+
+    if (root1 != NULL && root2 != NULL) {
+        new_node->data = root1->data + root2->data;
+        new_node->left = merge_tree(root1->left, root2->left);
+        new_node->right = merge_tree(root1->right, root2->right);
+    } else if (root1 != NULL && root2 == NULL) {
+        new_node->data = root1->data;
+        new_node->left = merge_tree(root1->left, NULL);
+        new_node->right = merge_tree(root1->right, NULL);
+    } else if (root1 == NULL && root2 != NULL) {
+        new_node->data = root2->data;
+        new_node->left = merge_tree(NULL, root2->left);
+        new_node->right = merge_tree(NULL, root2->right);
+    }
+    return new_node;
+}
+
 void test(tree_node *root)
 {
     pre_order_recur(root);
