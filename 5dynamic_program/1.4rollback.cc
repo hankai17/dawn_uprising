@@ -23,6 +23,15 @@ bool isvalid(std::string s) {
 p: )(() ((() ()() ()((
 p1: (() )() )() )((
 p2: (() (() (() (((
+
+how to make sure the least p
+while (!q.empty()) {                                                                                              
+    for (int i = q.size(); i > 0; i--) {
+        // pop a string
+        // pick up one char every time                                                                            
+    }   
+    if(found) break;                                                                                              
+}   
 */
 std::vector<std::string> removeInvalidParentheses(std::string s) 
 {
@@ -61,12 +70,13 @@ std::vector<std::string> removeInvalidParentheses(std::string s)
     }
     return ans;
 }
+
 int test()
 {
     std::string s = "123456";
-    std::cout << s.substr(2) << std::endl;
-    //std::cout << s.substr(0, 0) + s.substr(0, 3) << std::endl;
-    removeInvalidParentheses("()(()");
+    int i = 1;
+    std::cout << s.substr(0, i) + s.substr(i + 1) << std::endl;
+    //removeInvalidParentheses("()())()");
     return 0;
 }
 
