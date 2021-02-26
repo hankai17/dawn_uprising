@@ -3,6 +3,8 @@
 #include <climits>
 #include <string.h>
 
+// dp[0][j] = dp[0][j - cur_val] + 1;
+// dp[i][j] = std::min(dp[i-1][j], dp[i][j-cur_val] + 1);
 int min_coin(int arr[], int coin_obj, int aim)
 {
     if (arr == NULL || coin_obj == 0 || aim < 0) return -1;
@@ -17,18 +19,10 @@ int min_coin(int arr[], int coin_obj, int aim)
             dp[0][i] = dp[0][i - arr[0]] + 1;         
         }
     }
-    /*
-    for (int i = 0; i < coin_obj; i++) {
-        for (int j = 0; j < aim + 1; j++) {
-            std::cout << dp[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-    */
 
     for (int i = 1; i < n; i++) {
         int tmp = max;
-        for (int j = 1; j < aim + 1; j++) {
+        for (int j = 1; j <= aim; j++) {
             if (j - arr[i] >= 0 && dp[i][j - arr[i]] != max) {
                 tmp = dp[i][j - arr[i]] + 1;
             }
@@ -46,7 +40,7 @@ int min_coin1(std::vector<int> coins, int aim)
     for (int i = 1; i <= aim; i++) {
         for (int j = 0; j < coins.size(); j++) {
             if (i >= coins[j] && dp[i - coins[j]] != INT_MAX) {
-                dp[i] = std::min(dp[i], dp[i - coins[j]] + 1);
+                dp[i] = std::min(dp[i], dp[i - coins[j]] + 1); // dp[i] 是上一个相当于dp[i-1][j]
             }
         }
     }
