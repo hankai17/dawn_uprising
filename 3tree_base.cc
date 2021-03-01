@@ -259,6 +259,37 @@ int get_max_len(tree_node *root, int pre_sum, int l, int max_len, std::map<int, 
     */
 }
 
+void get_k_num(tree_node* root, int pre_sum, std::map<int, int>& m, 
+            int sum, int& num) {
+    if (root == NULL) return;
+    int cur_sum = pre_sum + root->data;
+    std::cout << "cur_sum: " << cur_sum << std::endl;
+    if (cur_sum == sum) {
+        num++;
+    } else if (cur_sum != sum) {
+        auto it = m.find(cur_sum - sum);
+        if (it != m.end()) {
+            num += it->second;
+        }
+    }
+    auto it = m.find(cur_sum);
+    if (it == m.end()) {
+        m.insert(std::make_pair(cur_sum, 1));
+    } else {
+        it->second++;
+    }
+    get_k_num(root->left, cur_sum, m, sum, num);
+    get_k_num(root->right, cur_sum, m, sum, num);
+}
+
+int pathSum(tree_node* root, int sum) {
+    std::map<int, int> m;
+    int num = 0;
+    int pre_sum = 0;
+    get_k_num(root, pre_sum, m, sum, num);
+    return num;
+}
+
 // TREE NUM10: contains
 int check(tree_node *root1, tree_node *root2)
 {
@@ -527,6 +558,15 @@ void test(tree_node *root)
     std::cout << std::endl;
     std::map<int, int> m;
     std::cout << get_max_len(root, 0, 0, 0, m) << std::endl;
+
+    tree_node node1;
+    tree_node node2;
+    tree_node node3;
+    node1.data = 1; node1.left = &node2; node1.right = &node3;
+    node2.data = -2; node2.left = NULL; node2.right = NULL;
+    node3.data = -3; node3.left = NULL; node3.right = NULL;
+
+    std::cout << pathSum(&node1, -1) << std::endl;
 }
 
 int main()

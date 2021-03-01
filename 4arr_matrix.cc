@@ -615,7 +615,7 @@ std::vector<int> find_disapper_no(std::vector<int> &nums)
 void test(int arr[], int len)
 {
     //std::cout << get_max_length(arr, len) << std::endl;
-    //std::cout << get_max_length1(arr, len) << std::endl;
+    std::cout << get_max_length1(arr, len) << std::endl;
     //spiril_print(NULL, 0, 0);
     //std::cout << getLIL(arr, len) << std::endl;
     //arr_partion(arr, len);
@@ -640,7 +640,9 @@ int main()
     //int arr[] = { 1, 2, 2, 2, 3, 3, 4, 5, 6, 6, 7, 7, 8, 8, 8, 9 };
     //int arr[] = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
     //int arr[] = { 1, 6, 3, 2, 5, 7, 2 };
-    int arr[] = { 1,3,4,3,2,0 };
+    //int arr[] = { 1,3,4,3,2,0 };
+    //int arr[] = {1, 0};
+    int arr[] = {1,2,3,3};
     test(arr, sizeof(arr)/sizeof(arr[0]));
     return 0;
 }
