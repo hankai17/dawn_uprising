@@ -50,8 +50,12 @@ std::vector<int> topKFrequent(std::vector<int> &nums, int k)
         return ret;
     }
 
+    ret.resize(pq.size());
     while (!pq.empty()) {
-        ret.push_back(pq.top().first);
+        ret[--k] = pq.top().first;
+        //ret.push_back(pq.top().first);
+        //// 2,2   1,3
+        //std::cout << "pq.top: " << pq.top().first << ", " << pq.top().second << std::endl;
         pq.pop();
     }
     for (int i = 0; i < ret.size(); i++) {
@@ -62,7 +66,8 @@ std::vector<int> topKFrequent(std::vector<int> &nums, int k)
 
 int test()
 {
-    std::vector<int> v = { 2, 2, 3, 3, 3, 1, 4, 4, 4, 4};
+    //std::vector<int> v = { 2, 2, 3, 3, 3, 1, 4, 4, 4, 4};
+    std::vector<int> v = { 1,1,1,2,2,3};
     topKFrequent(v, 2);
     return 0;
 }
@@ -72,3 +77,12 @@ int main()
     test();
     return 0;
 }
+
+/*
+topk （前k大）用小根堆，维护堆大小不超过 k 即可。每次压入堆前和堆顶元素比较，如果比堆顶元素还小，直接扔掉，否则压入堆。检查堆大小是否超过 k，如果超过，弹出堆顶。复杂度是 nlogk
+避免使用大根堆，因为你得把所有元素压入堆，复杂度是 nlogn，而且还浪费内存。如果是海量元素，那就挂了。
+[注意]
+
+求前 k 大，用小根堆，求前 k 小，用大根堆。 
+ 
+ */

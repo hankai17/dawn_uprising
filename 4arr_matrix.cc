@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <queue>
+#include <unordered_map>
 #include <algorithm>
 #include <string.h>
 #include <stdlib.h>
@@ -223,6 +224,50 @@ int get_max_length1(int arr[], int len)
         }
     }
     return l;
+}
+
+int subarray_sum(std::vector<int>& nums, int k) {
+#if 0
+    int sum = 0;
+    std::map<int, int> m; // sum, count
+    int ret = 0;
+
+    for (int i = 0; i < nums.size(); i++) {
+        sum += nums[i];
+        if (sum == k) {
+            if (m.find(sum) == m.end()) {
+                m.insert(std::make_pair(sum, 1));
+                ret = ret + 1;
+            } else {
+                ret = m[sum] + ret + 1;
+                m[sum]++;
+            }
+    
+        } else {
+            auto it = m.find(sum - k);
+            if (it != m.end()) {
+                ret += it->second;
+            } else {
+                if (m.find(sum) == m.end()) {
+                    m.insert(std::make_pair(sum, 1));
+                } else {
+                    m[sum]++;
+                }
+            }
+        }
+    }
+    return ret;
+#else 
+    int sum = 0, res = 0;
+    std::unordered_map<int, int> cul;
+        cul[0] = 1;
+        for (auto &m : nums) {
+            sum += m;
+            res += cul[sum - k];
+            ++cul[sum];
+        }
+        return res;
+#endif
 }
 
 // -8 -4 -3 0 1 2 4 5 8 9     // fun1: K = 10 return <1 9> <2 8>
@@ -615,7 +660,7 @@ std::vector<int> find_disapper_no(std::vector<int> &nums)
 void test(int arr[], int len)
 {
     //std::cout << get_max_length(arr, len) << std::endl;
-    std::cout << get_max_length1(arr, len) << std::endl;
+    //std::cout << get_max_length1(arr, len) << std::endl;
     //spiril_print(NULL, 0, 0);
     //std::cout << getLIL(arr, len) << std::endl;
     //arr_partion(arr, len);
@@ -626,12 +671,14 @@ void test(int arr[], int len)
     //{{7,0}, {4,4}, {7,1}, {5,0}, {6,1}, {5,2}};
     //people = reorder_tall(people);
 
-    std::vector<int> v = {4,3,2,7,8,2,3,1};
-    std::vector<int> res = find_disapper_no(v);
-    for (int i = 0; i < res.size(); i++) {
-        std::cout << res[i] << " ";
-    }
+    //std::vector<int> v = {4,3,2,7,8,2,3,1};
+    //std::vector<int> res = find_disapper_no(v);
+    //for (int i = 0; i < res.size(); i++) {
+    //    std::cout << res[i] << " ";
+    //}
 
+    std::vector<int> v = {1,2,1,2,1};
+    std::cout << subarray_sum(v, 3) << std::endl;
 }
 
 int main()
