@@ -528,6 +528,18 @@ tree_node *merge_tree(tree_node *root1, tree_node *root2)
     return new_node;
 }
 
+// TREE NUM20: 
+int converBST_sum = 0;
+tree_node *convertBST(tree_node* root)
+{
+    if (root == NULL) return NULL;
+    convertBST(root->right);
+    converBST_sum += root->data;
+    root->data = converBST_sum;
+    convertBST(root->left);
+    return root;
+}
+
 void test(tree_node *root)
 {
     pre_order_recur(root);

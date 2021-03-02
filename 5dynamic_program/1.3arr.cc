@@ -103,6 +103,27 @@ int can_partion(std::vector<int> &v)
     return dp[v.size() - 1][sum / 2];
 }
 
+bool can_partion1(std::vector<int>& nums) 
+{
+    int sum = 0;
+    for (int i = 0; i < v.size(); i++) {
+        sum += v[i];
+    }
+    if(sum & 1) return false;
+
+    std::vector<bool> dp((sum>>=1)+1, false); //sum/=2
+
+    for (int i = 0; i < nums.size(); i++) {
+      for (int s = sum ; s >= nums[i] ; s--) {
+      //从后往前，因为前面的元素我们已经求过了(i>0时确实已经求过了，i==0时我们求一遍即可，
+	  //下面的代码也确实给出了i==0的情况)，可以直接用
+        if(!i) dp[s] = (nums[i]==s);
+        else dp[s] = dp[s] || dp[s-nums[i]];
+      }
+    }
+    return dp[sum];
+}
+
 // dp[i][j] = std::max(dp[i - 1][j], dp[i -1][j - cur_val] + v)
 int zero_one_pack()
 {
@@ -134,6 +155,26 @@ int zero_one_pack()
         }
         std::cout << std::endl;
     }
+}
+
+int findTargetSumWays(vector<int>& nums, int S) {
+    // 转化成nums中和为(sum + S) / 2的子序列个数
+    // dp[i][j] = dp[i - 1][j] + dp[i - 1][j - nums[i]]
+    // dp[j] = dp[j] + dp[j - nums[i]]
+    int sum = 0;
+    for (int i = 0; i < nums.size(); i++) sum += nums[i];
+    if (S > sum || S < -sum || (sum + S) % 2 == 1) return 0;
+    int len = (sum + S) / 2;
+    int *dp = new int[len + 1];
+    memset(dp, 0x0, sizeof(int) * (len+1));
+    dp[0] = 1;
+
+    for (int i = 0; i < nums.size(); i++) {
+        for (int j = len; j >= nums[i]; j--) {
+            dp[j] += dp[j - nums[i]];
+        }
+    }
+    return dp[len];
 }
 
 int test()

@@ -11,6 +11,7 @@
 
 #define K 6
 
+using namespace std;
 // ARRAY NUM1: print matrix edge
 void print_edge(int arr[][4], int lux, int luy, int rdx, int rdy)
 {
@@ -655,6 +656,33 @@ std::vector<int> find_disapper_no(std::vector<int> &nums)
         }
     }
     return res;
+}
+
+// ARRAY NUM21: find island no
+void infect(vector<vector<char>>& grid, int i, int j) {
+    if (i < 0 || i >= grid.size() ||
+        j < 0 || j >= grid[0].size() ||
+        grid[i][j] != '1') {
+                return;
+    }
+    grid[i][j] = '2';
+    infect(grid, i + 1, j);
+    infect(grid, i - 1, j);
+    infect(grid, i, j + 1);
+    infect(grid, i, j - 1);
+}
+
+int numIslands(vector<vector<char>>& grid) {
+    int island_num = 0;
+    for (int i = 0; i < grid.size(); i++) {
+        for (int j = 0; j < grid[0].size(); j++) {
+            if (grid[i][j] == '1') {
+                infect(grid, i, j);
+                island_num++;
+            }
+        }
+    }
+    return island_num;
 }
 
 void test(int arr[], int len)
