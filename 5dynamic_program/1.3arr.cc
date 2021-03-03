@@ -157,6 +157,21 @@ int zero_one_pack()
     }
 }
 
+/*
+   降维：
+   减行，第i个物体的更新，只依赖于第i-1个的物体的结果
+   所以可以用滚动数组，每次只存i和i-1时候的值 （可得：dp[n][W] → dp[2][W] ）
+   删行，第i个物体在容积为j状态的更新，只依赖i-1物体容量里j-w[i]的状态的结果
+   所以，从后面开始向前更新，则求j位置时候，j-w[i]的值依旧为i-1时候的值（可得：dp[n][W] → dp[W] ） 
+   for(i = 1; i<=n; i++)
+   {
+       for(j = W; j>=w[i]; j--) //从后向前，此时dp[j-w[i]]相当于dp[i-1][j-w[i]]
+       {
+           dp[j] = max(dp[j], dp[j-w[i]] + v[i]);
+       }
+   }
+ */
+
 int findTargetSumWays(vector<int>& nums, int S) {
     // 转化成nums中和为(sum + S) / 2的子序列个数
     // dp[i][j] = dp[i - 1][j] + dp[i - 1][j - nums[i]]

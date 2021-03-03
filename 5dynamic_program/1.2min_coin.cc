@@ -32,6 +32,7 @@ int min_coin(int arr[], int coin_obj, int aim)
     return dp[n - 1][aim] != max ? dp[n - 1][aim] : -1;
 }
 
+// 几种硬币分别组成 1~aim 
 // dp[i] = std::min(dp[i], dp[i - cur_coin] + 1)
 int min_coin1(std::vector<int> coins, int aim)
 {
@@ -47,6 +48,7 @@ int min_coin1(std::vector<int> coins, int aim)
     return dp[aim] > aim ? -1 : dp[aim]; 
 }
 
+// same as up
 // dp[i] = std::min(dp[i], dp[i - cur_idx^2] + 1)
 int min_num_squares(int aim)
 {
