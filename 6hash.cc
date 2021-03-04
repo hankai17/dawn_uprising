@@ -64,11 +64,60 @@ std::vector<int> topKFrequent(std::vector<int> &nums, int k)
     return ret;
 }
 
+int merge(std::map<int, int>& m, int less, int more) {
+    int left = less - m[less] + 1;
+    int right = more + m[more] - 1;
+    int len = right - left + 1;
+    m[left] = len;
+    m[right] = len;
+    return len;
+}
+
+#if 0
+int longestConsecutive(std::vector<int>& nums) {
+    if (nums.size() == 0) return 0;
+    int ret = 1;
+    std::map<int, int> m;
+    for (int i = 0; i < nums.size(); i++) {
+        if (!m[nums[i]]) {
+            m[nums[i]] = 1;
+            if (m[nums[i] - 1]) {
+                ret = std::max(ret, merge(m, nums[i] - 1, nums[i]));
+            }
+            if (m[nums[i] + 1]) {
+                ret = std::max(ret, merge(m, nums[i], nums[i] + 1));
+            }
+        }
+    }
+    return ret;
+}
+#else 
+int longestConsecutive(std::vector<int>& nums) {
+    if (nums.size() == 0) return 0;
+    int ret = 1;
+    std::map<int, int> m;
+    for (int i = 0; i < nums.size(); i++) {
+        if (!m.count(nums[i])) {
+            m[nums[i]] = 1;
+            if (m.count(nums[i] - 1)) {
+                ret = std::max(ret, merge(m, nums[i] - 1, nums[i]));
+            }
+            if (m.count(nums[i] + 1)) {
+                ret = std::max(ret, merge(m, nums[i], nums[i] + 1));
+            }
+        }
+    }
+    return ret;
+}
+#endif
+
 int test()
 {
     //std::vector<int> v = { 2, 2, 3, 3, 3, 1, 4, 4, 4, 4};
-    std::vector<int> v = { 1,1,1,2,2,3};
-    topKFrequent(v, 2);
+    //std::vector<int> v = { 1,1,1,2,2,3};
+    std::vector<int> v = { 100,4,200,1,3,2};
+    //topKFrequent(v, 2);
+	std::cout << longestConsecutive(v) << std::endl;
     return 0;
 }
 
