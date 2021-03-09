@@ -71,6 +71,44 @@ std::vector<std::string> removeInvalidParentheses(std::string s)
     return ans;
 }
 
+#if 0
+std::vector<std::vector<int>> subsets(std::vector<int> &nums) 
+{
+    std::vector<std::vector<int>> res={{}};
+    for (int i = 0; i < nums.size(); i++) {
+        int len = res.size();
+        for (int j = 0; j < len; j++) {
+            vector<int> temp = res[j]; //取出1个旧的子集
+            temp.push_back(nums[i]); //加入新的元素，组成1个新子集
+            res.push_back(temp); //更新解集
+        }
+    };
+    return res;
+}
+#else
+std::vector<std::vector<int>> res;
+
+void dfs(int index, std::vector<int> &track, std::vector<int>& nums)
+{
+    if (index == nums.size()) return;
+    track.push_back(nums[index]);
+    res.push_back(track);
+    dfs(index+1,track,nums);//包含当前元素
+    track.pop_back();
+    dfs(index+1,track,nums);//不包含
+    return;
+}
+
+std::vector<std::vector<int>> subsets(std::vector<int>& nums) 
+{
+    //对于每个元素，两个选择，包含，不包含
+    std::vector<int> track;
+    res.push_back({}); //直接把空集先放入，不然后面会多次放入空集
+    dfs(0, track, nums);
+    return res;
+}
+#endif
+
 int test()
 {
     std::string s = "123456";

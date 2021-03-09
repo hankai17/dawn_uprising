@@ -19,8 +19,8 @@ void QuickSort(int arr[],int start, int end) {
 	int i = start;
 	int j = end;
 	//取基准数
-	int target = arr[start];
 	if (i < j) {
+	    int target = arr[start];
 		while (i < j) {
 			//从右向左找比基准数大的
 			while (i < j && arr[j] < target) {
@@ -43,9 +43,6 @@ void QuickSort(int arr[],int start, int end) {
 		
 		//i的位置就是基准数最合适的位置
 		arr[i] = target;
-        printf("--->\n");
-	    printArray(arr, MAX);
-        printf("<---\n");
 
 		//快速排序左半部分
 		QuickSort(arr, start, i - 1);
@@ -141,13 +138,13 @@ int main(){
 		arr[i] = rand() % MAX;
 	}
 
-	printArray(arr, MAX);
+	//printArray(arr, MAX);
 	//QuickSort(arr, 0, MAX - 1);
 	//QuickSort1(arr, 0, MAX - 1);
     int k = 2;
-    my_quick(arr, 0, MAX - 1, k - 1);
-
-	printArray(arr, MAX);
+    int arr1[2] = {0, 0};
+    QuickSort(arr1, 0, 1);
+	printArray(arr1, 2);
 
 	return EXIT_SUCCESS;
 }

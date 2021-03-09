@@ -685,6 +685,41 @@ int numIslands(vector<vector<char>>& grid) {
     return island_num;
 }
 
+
+// ARRAY NUM22: largest area
+int largestRectangleArea(std::vector<int>& heights) {
+#if 0
+    if (heights.size() == 0) return 0;
+    
+    int min_h = 0x7fffffff;
+    int max_area = 0x80000000;
+    
+    for (int i = 0; i < heights.size(); i++) {
+        min_h = 0x7fffffff;
+        for (int j = i; j >= 0; j--) {
+            min_h = std::min(min_h, heights[j]);
+            max_area = std::max(max_area, min_h * (i - j + 1));
+        }
+    
+    }
+    std::cout << "max_area: " << max_area << std::endl;
+    return max_area;
+#endif
+    heights.push_back(0);
+    std::stack<int> s;
+    int max_area = 0;
+    for (int i = 0; i < heights.size(); i++) {
+        while (!s.empty() && heights[i] < heights[s.top()]) {
+            int top= s.top();
+            s.pop();
+            max_area = std::max(max_area,
+                    heights[top] * (s.empty() ? i : (i - s.top() -1)));
+        }
+        s.push(i);
+    }
+    return max_area;
+}
+
 void test(int arr[], int len)
 {
     //std::cout << get_max_length(arr, len) << std::endl;
@@ -705,8 +740,9 @@ void test(int arr[], int len)
     //    std::cout << res[i] << " ";
     //}
 
-    std::vector<int> v = {1,2,1,2,1};
-    std::cout << subarray_sum(v, 3) << std::endl;
+    std::vector<int> v = {2,1,5,6,2,3};
+    //std::cout << subarray_sum(v, 3) << std::endl;
+    largestRectangleArea(v);
 }
 
 int main()
