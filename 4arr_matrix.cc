@@ -339,14 +339,14 @@ void odd_even_sort(int arr[], int len)
 int max_sum(int arr[], int len)
 {
     if (arr == NULL || len == 0 || len == 1) return 0;
-    int max = 0x80000000;
-    int cur = 0;
-    for (int i = 0; i < len - 1; i++) {
-        cur += arr[i];
-        max = std::max(max, cur);
-        cur = cur < 0 ? 0 : cur;
+    int max_sum = 0x80000000;
+    int cur_sum = 0;
+    for (int i = 0; i < len; i++) {
+        cur_sum += arr[i];
+        max_sum = std::max(max_sum, cur_sum);
+        cur_sum = cur_sum < 0 ? 0 : cur_sum;
     }
-    return max; 
+    return max_sum; 
 }
 
 // ARRAY NUM10: max child matrix sum
