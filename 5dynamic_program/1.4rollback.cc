@@ -109,6 +109,47 @@ std::vector<std::vector<int>> subsets(std::vector<int>& nums)
 }
 #endif
 
+#if 0
+vector<string> res;
+
+void dfs(string track, int n, int l, int r) {
+    if (r > l || l > n) return;
+    if (l == n && l == r) res.push_back(track);
+
+    dfs(track + '(', n, l + 1, r);
+    dfs(track + ')', n, l, r + 1);
+}
+
+vector<string> generateParenthesis(int n) {
+    dfs("", n, 0, 0);
+    return res;
+}
+
+map<char,string> m={{'2',"abc"},{'3',"def"},{'4',"ghi"},{'5',"jkl"},  {'6',"mno"},{'7',"pqrs"},{'8',"tuv"},{'9',"wxyz"}};
+vector<string> res;
+
+void dfs(string digits, string track) {
+    if (digits.size() == 0) {
+        res.push_back(track);
+    } else {
+        char num = digits[0];
+        string letter = m[num];
+        for (int i = 0; i < letter.size(); i++) {
+            track.push_back(letter[i]);
+            dfs(digits.substr(1), track);
+            track.pop_back();
+        }
+    }
+}
+
+vector<string> letterCombinations(string digits) {
+    if (digits.size() == 0) return res;
+    string track;
+    dfs(digits, track);
+    return res;
+}
+#endif
+
 int test()
 {
     std::string s = "123456";

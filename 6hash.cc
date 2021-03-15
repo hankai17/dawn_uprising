@@ -111,6 +111,36 @@ int longestConsecutive(std::vector<int>& nums) {
 }
 #endif
 
+#if 0
+struct cmp {
+    bool operator() (const ListNode* l, const ListNode *r) {
+        return l->val > r->val;
+    }
+};
+
+ListNode* mergeKLists(vector<ListNode*>& lists) {
+    ListNode head;
+    head.next = NULL;
+    ListNode *tmp = &head;
+
+    priority_queue<ListNode*, vector<ListNode*>, cmp> pq;
+    for (int i = 0; i < lists.size(); i++) {
+        if (lists[i] != NULL) {
+            pq.push(lists[i]);
+        }
+    }
+    while (!pq.empty()) {
+        tmp->next = pq.top();
+        tmp = tmp->next;
+        pq.pop();
+        if (tmp->next != NULL) {
+            pq.push(tmp->next);
+        }
+    }
+    return head.next;
+}
+#endif
+
 int test()
 {
     //std::vector<int> v = { 2, 2, 3, 3, 3, 1, 4, 4, 4, 4};
