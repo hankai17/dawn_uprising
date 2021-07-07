@@ -26,24 +26,11 @@ void pre_order_recur(tree_node *root)
     if (root == NULL) return;
     std::cout << root->data << " ";
     pre_order_recur(root->left);
+    //std::cout << root->data << " ";  // in_order
     pre_order_recur(root->right);
+    //std::cout << root->data << " "; // pos_order
 }
 
-void in_order_recur(tree_node *root)
-{
-    if (root == NULL) return;
-    in_order_recur(root->left);
-    std::cout << root->data << " ";
-    in_order_recur(root->right);
-}
-
-void pos_order_recur(tree_node *root)
-{
-    if (root == NULL) return;
-    pos_order_recur(root->left);
-    pos_order_recur(root->right);
-    std::cout << root->data << " ";
-}
 
 // TREE NUM2: nono-recur print
 void pre_order(tree_node *root)
@@ -112,6 +99,27 @@ void pos_order(tree_node *root)
     }
 }
 
+// TREE NUM8: level print
+void level_print(tree_node *root)
+{
+    if (root == NULL) return;
+    std::list<tree_node*> l;
+    tree_node *tmp;
+    l.push_back(root);
+
+    while (!l.empty()) {
+        tmp = l.front(); 
+        l.pop_front();
+        std::cout << tmp->data << " ";
+        if (tmp->left) {
+            l.push_back(tmp->left);
+        }
+        if (tmp->right) {
+            l.push_back(tmp->right);
+        }
+    }
+}
+
 // TREE NUM3: print tree struct
 #define VAL_MAX_LEN 17
 void print_struct(tree_node *root, int h, std::string str)
@@ -139,8 +147,7 @@ void print_leaf(tree_node *root)
     print_leaf(root->right);
 }
 
-/* just like strlen */
-// TREE NUM5: print tree heigh
+// TREE NUM5: print tree heigh, just like strlen
 int get_heigh(tree_node *root, int h)
 {
     if (root == NULL) return h;
@@ -204,27 +211,6 @@ std::string serial_tree(tree_node *root)
 }
 
 void re_serial_tree() {} // TODO
-
-// TREE NUM8: level print
-void level_print(tree_node *root)
-{
-    if (root == NULL) return;
-    std::list<tree_node*> l;
-    tree_node *tmp;
-    l.push_back(root);
-
-    while (!l.empty()) {
-        tmp = l.front(); 
-        l.pop_front();
-        std::cout << tmp->data << " ";
-        if (tmp->left) {
-            l.push_back(tmp->left);
-        }
-        if (tmp->right) {
-            l.push_back(tmp->right);
-        }
-    }
-}
 
 
 // TREE NUM9: sum max len tree
@@ -310,29 +296,13 @@ int contains_tree(tree_node *root, tree_node *child)
 }
 
 // TREE NUM11: is balance
-int get_heigh(tree_node* root, int l, int &result)
+int is_balance(tree_node *root)
 {
-    if (root == NULL) return l;
-    int lH = get_heigh(root->left, l + 1, result);
-    if (result == 0) {
-        return l;
-    }
-    int rH = get_heigh(root->right, l + 1, result);
-    if (result == 0) {
-        return l;
-    }
-    if (abs(lH - rH) > 1) {
-        result = 0;
-    }
-    return lH > rH ? lH : rH;
-}
-
-void is_balance(tree_node *root)
-{
-    if (root == NULL) return;
-    int result;
-    get_heigh(root, 1, result);
-    std::cout << "result: " << result << std::endl;
+    if (root == NULL) return 1;
+    int lh = get_heigh(root->left, 0);
+    int rh = get_heigh(root->right, 0);
+    if (abs(lh - rh) > 1) return 0;
+    return is_balance(root->left) && is_balance(root->right);
 }
 
 // TREE NUM12: is bst pos
@@ -439,7 +409,6 @@ tree_node *get_next(tree_node *root)
         return parent;
     }
 }
-
 
 // TREE NUM16: lowest ancestor
 tree_node *lowest_ancestor(tree_node *root, int val1, int val2)
