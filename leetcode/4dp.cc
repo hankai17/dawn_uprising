@@ -102,7 +102,7 @@ public:
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        vector<int> dp(nums.size(), INT_MAX);
+        vector<int> dp(nums.size(), INT_MAX); // dp[i]: 到i位置需要跳跃的最小次数
         dp[0] = 0;
 
         for (int i = 1; i < nums.size(); i++) {
