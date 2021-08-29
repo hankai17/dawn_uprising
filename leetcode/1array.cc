@@ -283,7 +283,7 @@ public:
     }
 };
 
-// 39. 组合总和
+// 39. 组合总和 // nums = [2 3 6 7] target = 7 resu = [[2 2 3][7]]
 class Solution {
 public:
     vector<vector<int>> res;
@@ -311,7 +311,7 @@ public:
     
 };
 
-// 40. 组合总和 II
+// 40. 组合总和 II // nums = [1 1 2 5 6 7 10] target = 8 resu = [[1 7] [1 2 5] [2 6] [1 1 6]]
 class Solution {
 public:
     vector<vector<int>> res;
