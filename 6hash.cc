@@ -11,6 +11,7 @@ struct cmp {
     }                          
 };                          
 
+// https://blog.csdn.net/lijiang1991/article/details/52727478?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-4.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-4.no_search_link
 //priority_queue <int,vector<int>,greater<int> > q; //升序队列，小顶堆
 //priority_queue <int,vector<int>,less<int> >q; //降序队列，大顶堆
 //greater和less是std实现的两个仿函数
