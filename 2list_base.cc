@@ -687,7 +687,7 @@ list_node *merge_lr_list(list_node* head)
     list_node *new_head = head; // head: 1 3
     list_node *tmp = head;      // right: 5 7 9
     head = head->next;
-
+#if 0
     while (head != NULL && right != NULL) {
         tmp->next = right; 
         right = right->next;
@@ -706,6 +706,29 @@ list_node *merge_lr_list(list_node* head)
         tmp->next = right;
     }
     return new_head;
+#else
+    list_node *lh = head;
+    list_node n;
+    list_node *tmp = &n;
+    
+    while (lh && rh) {
+        tmp->next = lh;
+        lh = lh->next;
+        tmp = tmp->next;
+
+        tmp->next = rh;
+        rh = rh->next;
+        tmp = tmp->next;
+    }
+
+    if (lh) {
+        tmp->next = lh;
+    }
+    if (rh) {
+        tmp->next = rh;
+    }
+    return n.next;
+#endif
 }
 
 // LIST NUM20: reverse every partion list
