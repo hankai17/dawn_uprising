@@ -32,7 +32,8 @@ int min_coin(int arr[], int coin_obj, int aim)
     return dp[n - 1][aim] != max ? dp[n - 1][aim] : -1;
 }
 
-// 几种硬币分别组成 1~aim 
+// 几种硬币分别组成 1~aim  
+// 三种硬币(2 3 5)组成1 需要最小个数填到dp[1]处; 三种硬币(2 3 5)组成2 需要最小个数填到dp[2]处; ...
 // dp[i] = std::min(dp[i], dp[i - cur_coin] + 1)
 int min_coin1(std::vector<int> coins, int aim)
 {
