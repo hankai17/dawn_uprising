@@ -296,7 +296,8 @@ public:
         }
         for (int i = start; i < candidates.size(); i++) { // 允许重复 但不允许有顺序区别
             track.push_back(candidates[i]);
-            dfs(candidates, target - candidates[i], track, i);
+            dfs(candidates, target - candidates[i], track, i); /// 注意这里传的是i 意思是数组中的每个元素可以用无数次
+                                                               /// 如果传i+1则 数组中每个元素只能用一次
             track.pop_back();
         }
     }
