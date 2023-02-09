@@ -335,9 +335,8 @@ public:
         vector<char> res;
         int i = a.size() - 1;
         int j = b.size() - 1;
-        char op = 0;
         char c;
-        int ret = 0;
+        int ret = 0; // 换成ac好看一些
 
         while (i >= 0 && j >= 0) {
             ret = add_char(a[i], b[j], ret == 0 ? '0' : '1', c);
