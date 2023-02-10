@@ -76,7 +76,7 @@ int robot_max(std::vector<int> arr)
 }
 
 // 随机选几个不重复数最终能合成sum * 1/2 
-// dp[i][j] = dp[i - 1][j] || dp[i - 1][j - cur_val] (与换钱问题不同, 隐含条件是必须用一个)
+// dp[i][j] = dp[i - 1][j] || dp[i - 1][j - cur_val] (与换钱问题不同, 隐含条件是必须用一个) (即 完全不用本数 || 用该数)
 int can_partion(std::vector<int> &v)
 {
     int sum = 0;
