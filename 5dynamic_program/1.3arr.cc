@@ -124,7 +124,7 @@ bool can_partion1(std::vector<int>& nums)
     return dp[sum];
 }
 
-// dp[i][j] = std::max(dp[i - 1][j], dp[i -1][j - cur_val] + v)
+// dp[i][j] = std::max(dp[i - 1][j], dp[i -1][j - cur_val] + v) (即 max(偷当前的东西 || 不偷当前的东西)
 int zero_one_pack()
 {
     int w[] = {2,2,6,5,4};
