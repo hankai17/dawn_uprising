@@ -4,7 +4,7 @@
 #include <string.h>
 
 // dp[0][j] = dp[0][j - cur_val] + 1;
-// dp[i][j] = std::min(dp[i-1][j], dp[i][j-cur_val] + 1);
+// dp[i][j] = std::min(dp[i-1][j], dp[i][j-cur_val] + 1); // 即min(完全不用本硬币, 至少用1个本硬币)
 int min_coin(int arr[], int coin_obj, int aim)
 {
     if (arr == NULL || coin_obj == 0 || aim < 0) return -1;
