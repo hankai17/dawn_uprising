@@ -521,7 +521,7 @@ public:
         }
     }
 
-    void rotate(vector<vector<int>>& matrix) {
+    void rotate(vector<vector<int>>& matrix) { // i为纵坐标 j为横坐标
         int lu_i = 0;
         int lu_j = 0;
         int rd_i = matrix.size() - 1;
